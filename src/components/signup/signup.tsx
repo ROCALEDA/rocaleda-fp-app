@@ -1,4 +1,3 @@
-// Login.js
 import React, { useState } from "react";
 import {
   Text,
@@ -38,13 +37,13 @@ const SignUp = () => {
   };
   return (
     <ImageBackground
-      source={require("../../assets/red-background.jpeg")} // Adjust the path accordingly
+      source={require("../../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
     >
       <ScrollView style={styles.container}>
         <View style={styles.login}>
           <View style={styles.header}>
-            <Image source={require("../../assets/logo.png")} />
+            <Image source={require("../../../assets/logo.png")} />
           </View>
           <View style={styles.welcome}>
             <Text style={globalStyles.text_title}>

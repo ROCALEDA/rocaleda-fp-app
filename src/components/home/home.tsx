@@ -1,17 +1,16 @@
 // Login.js
-import React from "react";
 import { Text, StyleSheet, ScrollView, ImageBackground } from "react-native";
 
 import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 
-const Home = ({ navigation }) => {
+const Home = ({}) => {
   const renderTextBtn = () => (
     <Text style={globalStyles.button_primary_text}>INGRESAR</Text>
   );
 
   return (
     <ImageBackground
-      source={require("../../assets/red-background.jpeg")} // Adjust the path accordingly
+      source={require("../../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
     >
       <ScrollView

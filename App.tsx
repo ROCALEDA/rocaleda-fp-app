@@ -4,7 +4,7 @@ import { useEffect, useCallback } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import RootNavigation from "../../navigation/RootNavigation";
+import RootNavigation from "./src/navigation/RootNavigation";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -12,8 +12,8 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = Font.useFonts({
-    "Outfit-Regular": require("../../../assets/fonts/Outfit/Outfit-Regular.ttf"),
-    "Philosopher-Regular": require("../../../assets/fonts/Philosopher/Philosopher-Regular.ttf"),
+    "Outfit-Regular": require("./assets/fonts/Outfit/Outfit-Regular.ttf"),
+    "Philosopher-Regular": require("./assets/fonts/Philosopher/Philosopher-Regular.ttf"),
   });
 
   useEffect(() => {
