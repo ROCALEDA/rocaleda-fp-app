@@ -7,28 +7,41 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  Alert,
+  ScrollView,
 } from "react-native";
-import globalStyles from "../../styles/global-styles"; // Adjust the path accordingly
+import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 
 import { ImageBackground } from "react-native";
+import { login } from "../../../api/apiService";
+import { storeToken } from "../../../utils/token";
 
-const Login = () => {
-  const [username, setUsername] = useState("");
+const SignUp = () => {
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    // Implement your authentication logic here
-    console.log("Username:", username);
-    console.log("Password:", password);
-    // Add authentication logic using services, APIs, etc.
+  const onSubmitHandler = async () => {
+    try {
+      const { data, status } = await login(email, password);
+      console.log(data);
+      Alert.alert("Sesión iniciada");
+      if (data.token) {
+        storeToken(data.token);
+      } else {
+        // Handle errors
+        console.error("Authentication failed");
+      }
+    } catch (error) {
+      const errorMessage = (error as Error).message;
+      Alert.alert(`${errorMessage}`);
+    }
   };
-
   return (
     <ImageBackground
       source={require("../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
     >
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.login}>
           <View style={styles.header}>
             <Image source={require("../../assets/logo.png")} />
@@ -44,8 +57,8 @@ const Login = () => {
               <TextInput
                 style={styles.input_field}
                 placeholder="correo@quire.com"
-                onChangeText={(text) => setUsername(text)}
-                value={username}
+                onChangeText={(text) => setEmail(text)}
+                value={email}
               />
             </View>
             <View style={styles.input}>
@@ -60,7 +73,7 @@ const Login = () => {
             </View>
             <TouchableOpacity
               style={globalStyles.button_primary}
-              onPress={() => console.log("Button pressed")}
+              onPress={onSubmitHandler}
             >
               <Text style={globalStyles.button_primary_text}>INGRESAR</Text>
             </TouchableOpacity>
@@ -79,7 +92,7 @@ const Login = () => {
             </Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </ScrollView>
     </ImageBackground>
   );
 };
@@ -137,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignUp;

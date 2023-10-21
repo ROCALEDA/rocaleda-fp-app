@@ -1,15 +1,19 @@
 import * as Font from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
-import { useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
-import Login from "./components/login/login";
+import { useEffect, useCallback } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+import RootNavigation from "../../navigation/RootNavigation";
+
 SplashScreen.preventAutoHideAsync();
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = Font.useFonts({
-    "Outfit-Regular": require("./assets/fonts/Outfit/Outfit-Regular.ttf"),
-    "Philosopher-Regular": require("./assets/fonts/Philosopher/Philosopher-Regular.ttf"),
+    "Outfit-Regular": require("../../../assets/fonts/Outfit/Outfit-Regular.ttf"),
+    "Philosopher-Regular": require("../../../assets/fonts/Philosopher/Philosopher-Regular.ttf"),
   });
 
   useEffect(() => {
@@ -32,7 +36,7 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <Login />
+      <RootNavigation />
     </View>
   );
 }
