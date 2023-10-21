@@ -2,7 +2,7 @@
 import React from "react";
 import { Text, StyleSheet, ScrollView, ImageBackground } from "react-native";
 
-import globalStyles from "../../styles/global-styles"; // Adjust the path accordingly
+import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 
 const Home = ({ navigation }) => {
   const renderTextBtn = () => (

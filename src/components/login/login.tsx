@@ -1,63 +1,82 @@
 // Login.js
 import React, { useState } from "react";
 import {
+  Alert,
   Text,
   View,
   Image,
+  Pressable,
   TextInput,
   StyleSheet,
-  TouchableOpacity,
-  Alert,
   ScrollView,
+  ActivityIndicator,
+  TouchableOpacity,
 } from "react-native";
-import globalStyles from "../../styles/global-styles"; // Adjust the path accordingly
+import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 
 import { ImageBackground } from "react-native";
-import { login } from "../../api/apiService";
-import { storeToken } from "../../utils/token";
+import { login } from "../../../api/apiService";
+import { storeToken } from "../../../utils/token";
 
-const SignUp = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+type LoginProps = {
+  navigation: any;
+};
+
+const Login = ({ navigation }: LoginProps) => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmitHandler = async () => {
+    setLoading(true);
     try {
       const { data, status } = await login(email, password);
       console.log(data);
       Alert.alert("Sesión iniciada");
       if (data.token) {
         storeToken(data.token);
-      } else {
-        // Handle errors
-        console.error("Authentication failed");
+        navigation.navigate("Home");
+        return;
       }
     } catch (error) {
       const errorMessage = (error as Error).message;
       Alert.alert(`${errorMessage}`);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const renderLoader = () => <ActivityIndicator />;
+
+  const renderTextBtn = () => (
+    <Text style={globalStyles.button_primary_text}>INGRESAR</Text>
+  );
+
   return (
     <ImageBackground
-      source={require("../../assets/red-background.jpeg")} // Adjust the path accordingly
+      source={require("../../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
     >
-      <ScrollView style={styles.container}>
-        <View style={styles.login}>
-          <View style={styles.header}>
-            <Image source={require("../../assets/logo.png")} />
-          </View>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <View style={styles.header}>
+          <Image source={require("../../../assets/logo.png")} />
           <View style={styles.welcome}>
             <Text style={globalStyles.text_title}>
               Estamos felices de verte de nuevo
             </Text>
           </View>
+        </View>
+        <View style={styles.login}>
           <View style={styles.form}>
             <View style={styles.input}>
               <Text style={globalStyles.text_label}>Correo</Text>
               <TextInput
                 style={styles.input_field}
                 placeholder="correo@quire.com"
-                onChangeText={(text) => setEmail(text)}
+                onChangeText={setEmail}
                 value={email}
               />
             </View>
@@ -67,16 +86,17 @@ const SignUp = () => {
                 style={styles.input_field}
                 placeholder="******"
                 secureTextEntry
-                onChangeText={(text) => setPassword(text)}
+                onChangeText={setPassword}
                 value={password}
               />
             </View>
-            <TouchableOpacity
+            <Pressable
               style={globalStyles.button_primary}
               onPress={onSubmitHandler}
+              disabled={loading}
             >
-              <Text style={globalStyles.button_primary_text}>INGRESAR</Text>
-            </TouchableOpacity>
+              {loading ? renderLoader() : renderTextBtn()}
+            </Pressable>
           </View>
         </View>
         <View style={styles.signin}>
@@ -103,18 +123,21 @@ const styles = StyleSheet.create({
     resizeMode: "cover", // or 'stretch' or 'contain'
   },
   container: {
-    flex: 1,
-    paddingHorizontal: 30,
     paddingVertical: 20,
-    fontFamily: "Outfit-Regular",
+    paddingHorizontal: 20,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "space-around",
   },
   header: {
+    flex: 1,
     paddingVertical: 20,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   login: {
-    flex: 4,
+    flex: 2,
     justifyContent: "center",
   },
   signin: {
@@ -150,4 +173,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;
+export default Login;

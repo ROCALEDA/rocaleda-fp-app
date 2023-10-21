@@ -1,78 +1,63 @@
 // Login.js
 import React, { useState } from "react";
 import {
-  Alert,
   Text,
   View,
   Image,
-  Pressable,
   TextInput,
   StyleSheet,
-  ScrollView,
-  ActivityIndicator,
   TouchableOpacity,
+  Alert,
+  ScrollView,
 } from "react-native";
-import globalStyles from "../../styles/global-styles"; // Adjust the path accordingly
+import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 
 import { ImageBackground } from "react-native";
-import { login } from "../../api/apiService";
-import { storeToken } from "../../utils/token";
+import { login } from "../../../api/apiService";
+import { storeToken } from "../../../utils/token";
 
-const Login = ({ navigation }) => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const onSubmitHandler = async () => {
-    setLoading(true);
     try {
       const { data, status } = await login(email, password);
       console.log(data);
       Alert.alert("Sesión iniciada");
       if (data.token) {
         storeToken(data.token);
-        navigation.navigate("Home");
-        return;
+      } else {
+        // Handle errors
+        console.error("Authentication failed");
       }
     } catch (error) {
       const errorMessage = (error as Error).message;
       Alert.alert(`${errorMessage}`);
-    } finally {
-      setLoading(false);
     }
   };
-
-  const renderLoader = () => <ActivityIndicator />;
-
-  const renderTextBtn = () => (
-    <Text style={globalStyles.button_primary_text}>INGRESAR</Text>
-  );
-
   return (
     <ImageBackground
       source={require("../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
     >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <View style={styles.header}>
-          <Image source={require("../../assets/logo.png")} />
+      <ScrollView style={styles.container}>
+        <View style={styles.login}>
+          <View style={styles.header}>
+            <Image source={require("../../assets/logo.png")} />
+          </View>
           <View style={styles.welcome}>
             <Text style={globalStyles.text_title}>
               Estamos felices de verte de nuevo
             </Text>
           </View>
-        </View>
-        <View style={styles.login}>
           <View style={styles.form}>
             <View style={styles.input}>
               <Text style={globalStyles.text_label}>Correo</Text>
               <TextInput
                 style={styles.input_field}
                 placeholder="correo@quire.com"
-                onChangeText={setEmail}
+                onChangeText={(text) => setEmail(text)}
                 value={email}
               />
             </View>
@@ -82,17 +67,16 @@ const Login = ({ navigation }) => {
                 style={styles.input_field}
                 placeholder="******"
                 secureTextEntry
-                onChangeText={setPassword}
+                onChangeText={(text) => setPassword(text)}
                 value={password}
               />
             </View>
-            <Pressable
+            <TouchableOpacity
               style={globalStyles.button_primary}
               onPress={onSubmitHandler}
-              disabled={loading}
             >
-              {loading ? renderLoader() : renderTextBtn()}
-            </Pressable>
+              <Text style={globalStyles.button_primary_text}>INGRESAR</Text>
+            </TouchableOpacity>
           </View>
         </View>
         <View style={styles.signin}>
@@ -119,21 +103,18 @@ const styles = StyleSheet.create({
     resizeMode: "cover", // or 'stretch' or 'contain'
   },
   container: {
+    flex: 1,
+    paddingHorizontal: 30,
     paddingVertical: 20,
-    paddingHorizontal: 20,
-  },
-  contentContainer: {
-    flexGrow: 1,
-    justifyContent: "space-around",
+    fontFamily: "Outfit-Regular",
   },
   header: {
-    flex: 1,
     paddingVertical: 20,
-    justifyContent: "flex-end",
+    justifyContent: "center",
     alignItems: "center",
   },
   login: {
-    flex: 2,
+    flex: 4,
     justifyContent: "center",
   },
   signin: {
@@ -169,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default SignUp;
