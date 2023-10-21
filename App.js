@@ -1,10 +1,16 @@
 import * as Font from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-
-import { useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
+import { useEffect, useCallback } from "react";
+import * as SplashScreen from "expo-splash-screen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import Login from "./components/login/login";
+import SignUp from "./components/signup/signup";
+
 SplashScreen.preventAutoHideAsync();
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   const [fontsLoaded] = Font.useFonts({
@@ -32,7 +38,16 @@ export default function App() {
 
   return (
     <View style={styles.container} onLayout={onLayoutRootView}>
-      <Login />
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen
+            name="Login"
+            options={{ headerShown: false }}
+            component={Login}
+          />
+          <Stack.Screen name="SignUp" component={SignUp} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </View>
   );
 }
