@@ -31,3 +31,14 @@ const fetchData = async (
 export const login = async (email: string, password: string) => {
   return fetchData("auth", "POST", { email, password });
 };
+
+export const signup = async (payload: {
+  email: string;
+  phone: string;
+  password: string;
+  fullname: string;
+  soft_skills: string[];
+  tech_skills: string[];
+}) => {
+  return fetchData("candidate", "POST", payload);
+};

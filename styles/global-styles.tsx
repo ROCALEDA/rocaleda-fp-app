@@ -7,6 +7,11 @@ const globalStyles = StyleSheet.create({
     fontFamily: "Philosopher-Regular",
     color: "#2D3748",
   },
+  text_highlight_candidate: {
+    fontSize: 30,
+    color: "#009EF8",
+    fontFamily: "Philosopher-Regular",
+  },
   text_title_small: {
     fontSize: 20,
     textAlign: "center",
@@ -25,6 +30,16 @@ const globalStyles = StyleSheet.create({
   },
   button_primary_text: {
     color: "white", // Set the text color
+    fontSize: 16,
+    textTransform: "uppercase",
+    textAlign: "center",
+  },
+  button_secondary: {
+    backgroundColor: "#F4E8C9", // Set the background color
+    padding: 10,
+    borderRadius: 5,
+  },
+  button_secondary_text: {
     fontSize: 16,
     textTransform: "uppercase",
     textAlign: "center",
