@@ -53,16 +53,19 @@ const Login = ({ navigation }) => {
       source={require("../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
     >
-      <ScrollView style={styles.container}>
-        <View style={styles.login}>
-          <View style={styles.header}>
-            <Image source={require("../../assets/logo.png")} />
-          </View>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+      >
+        <View style={styles.header}>
+          <Image source={require("../../assets/logo.png")} />
           <View style={styles.welcome}>
             <Text style={globalStyles.text_title}>
               Estamos felices de verte de nuevo
             </Text>
           </View>
+        </View>
+        <View style={styles.login}>
           <View style={styles.form}>
             <View style={styles.input}>
               <Text style={globalStyles.text_label}>Correo</Text>
@@ -116,17 +119,21 @@ const styles = StyleSheet.create({
     resizeMode: "cover", // or 'stretch' or 'contain'
   },
   container: {
-    flex: 1,
-    paddingHorizontal: 30,
     paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+  contentContainer: {
+    flexGrow: 1,
+    justifyContent: "space-around",
   },
   header: {
+    flex: 1,
     paddingVertical: 20,
-    justifyContent: "center",
+    justifyContent: "flex-end",
     alignItems: "center",
   },
   login: {
-    flex: 4,
+    flex: 2,
     justifyContent: "center",
   },
   signin: {
