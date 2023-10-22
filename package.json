@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "test": "jest --watch --coverage=false --changedSince=origin/main",
+    "test": "jest",
+    "test:cov": "jest --coverage",
     "testDebug": "jest -o --watch --coverage=false",
     "testFinal": "jest",
     "updateSnapshots": "jest -u --coverage=false"
@@ -24,6 +25,7 @@
     "jest-expo": "^49.0.0",
     "react": "18.2.0",
     "react-native": "0.72.5",
+    "react-native-dropdown-select-list": "^2.0.5",
     "react-native-reanimated": "^3.5.4",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0"
@@ -43,18 +45,25 @@
     ],
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "**/*.{js,jsx}",
+      "**/*.{js,jsx,tsx}",
       "!**/coverage/**",
       "!**/node_modules/**",
       "!**/babel.config.js",
-      "!**/jest.setup.js"
+      "!**/jest.setup.js",
+      "!**/*.config.*",
+      "!App.tsx"
     ],
     "setupFiles": [
       "<rootDir>/jest/setup.js"
     ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
-    ]
+    ],
+    "coverageThreshold": {
+      "global": {
+        "lines": 70
+      }
+    }
   },
   "private": true
 }

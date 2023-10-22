@@ -1,5 +1,4 @@
-// Login.js
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Alert,
   Text,
@@ -78,6 +77,7 @@ const Login = ({ navigation }: LoginProps) => {
                 placeholder="correo@quire.com"
                 onChangeText={setEmail}
                 value={email}
+                keyboardType="email-address"
               />
             </View>
             <View style={styles.input}>
@@ -105,7 +105,7 @@ const Login = ({ navigation }: LoginProps) => {
           </Text>
           <TouchableOpacity
             style={globalStyles.button_primary}
-            onPress={() => console.log("Button pressed")}
+            onPress={() => navigation.navigate("SignUp")}
           >
             <Text style={globalStyles.button_primary_text}>
               Quiero ser candidato
