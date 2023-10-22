@@ -50,7 +50,8 @@
       "!**/node_modules/**",
       "!**/babel.config.js",
       "!**/jest.setup.js",
-      "!**/*.config.*"
+      "!**/*.config.*",
+      "!App.tsx"
     ],
     "setupFiles": [
       "<rootDir>/jest/setup.js"

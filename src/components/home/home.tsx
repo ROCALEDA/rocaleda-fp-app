@@ -12,6 +12,7 @@ const Home = ({}) => {
     <ImageBackground
       source={require("../../../assets/red-background.jpeg")} // Adjust the path accordingly
       style={styles.backgroundImage}
+      testID="background-image"
     >
       <ScrollView
         style={styles.container}

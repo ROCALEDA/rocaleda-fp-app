@@ -118,6 +118,7 @@ const SignUp = ({ navigation }: LoginProps) => {
                   secureTextEntry
                   onChangeText={(text) => setPassword(text)}
                   value={password}
+                  testID="password"
                 />
               </View>
               <View style={styles.password_input}>
