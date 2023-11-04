@@ -4,7 +4,7 @@ import { Text, StyleSheet, Image, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import API_URL from "../../../api/config";
-import { getToken, getUser } from "../../../utils/token";
+import { getToken, getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 import Chip from "../chip/Chip";
 

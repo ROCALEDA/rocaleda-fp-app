@@ -17,7 +17,7 @@ import globalStyles from "../../../styles/global-styles"; // Adjust the path acc
 
 import { ImageBackground } from "react-native";
 import { login, signup } from "../../../api/apiService";
-import { storeToken } from "../../../utils/token";
+import { storeToken, storeUser } from "../../../utils/storage";
 import { softSkills, technicalSkills } from "../../../utils/skils";
 
 type LoginProps = {
@@ -45,10 +45,9 @@ const SignUp = ({ navigation }: LoginProps) => {
         soft_skills: softSkillsSelected,
         tech_skills: technicalSkillsSelected,
       });
-      console.log(data);
       Alert.alert("Registro exitoso");
       if (data.token) {
-        storeToken(data.token);
+        storeUser(data.token, data.role_id);
         navigation.navigate("Home");
         return;
       }

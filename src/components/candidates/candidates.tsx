@@ -5,7 +5,7 @@ import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
 import CandidateCard from "./candidate-card";
-import { getUser } from "../../../utils/token";
+import { getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -38,7 +38,6 @@ const Candidates = ({ navigation }: CandidateProps) => {
             },
           });
           const data = await response.json();
-          console.log("DATA USER", data);
           setCandidates(data.data);
         } else {
           Alert.alert(`Usuario no autenticado`);

@@ -1,18 +1,18 @@
 import React from "react";
-import { render, fireEvent, waitFor  } from "@testing-library/react-native";
+import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import Login from "./login";
 import { login } from "../../../api/apiService";
-import { storeToken } from "../../../utils/token";
+import { storeToken } from "../../../utils/storage";
 
 jest.mock("../../../api/apiService");
-jest.mock("../../../utils/token");
+jest.mock("../../../utils/storage");
 
 describe("<Login />", () => {
   let mockNavigation;
 
   beforeEach(() => {
     mockNavigation = { navigate: jest.fn() };
-  })
+  });
   it("renders the component", () => {
     const { getByText } = render(<Login navigation={mockNavigation} />);
     expect(getByText("Estamos felices de verte de nuevo")).toBeTruthy();
@@ -33,15 +33,20 @@ describe("<Login />", () => {
     expect(passwordInput.props.value).toBe("testPassword");
   });
 
-  it('handles login success and navigates to Home', async () => {
-    (login).mockResolvedValueOnce({
-      data: { token: 'mockedToken' },
+  it("handles login success and navigates to Home", async () => {
+    login.mockResolvedValueOnce({
+      data: { token: "mockedToken", role: "1" },
       status: 200,
     });
 
-    const { getByPlaceholderText, getByText } = render(<Login navigation={mockNavigation} />);
+    const { getByPlaceholderText, getByText } = render(
+      <Login navigation={mockNavigation} />
+    );
 
-    fireEvent.changeText(getByPlaceholderText("correo@quire.com"), "test@quire.com");
+    fireEvent.changeText(
+      getByPlaceholderText("correo@quire.com"),
+      "test@quire.com"
+    );
     fireEvent.changeText(getByPlaceholderText("******"), "password123");
     fireEvent.press(getByText("INGRESAR"));
 

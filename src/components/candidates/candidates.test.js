@@ -1,22 +1,18 @@
-// Login.test.js
-import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render } from "@testing-library/react-native";
+import Candidates from "./candidates";
 
-import Home from './home';
+jest.mock("../../../api/apiService");
+jest.mock("../../../utils/storage");
 
-describe('Home Component', () => {
-  it('renders the title correctly', () => {
-    const { getByText } = render(<Home />);
+describe("<Candidates />", () => {
+  let mockNavigation;
 
-    expect(getByText('Home')).toBeTruthy();
+  beforeEach(() => {
+    mockNavigation = { navigate: jest.fn() };
   });
 
-  it('renders the background image', () => {
-    const { getByTestId } = render(<Home />);
-
-    const backgroundImage = getByTestId('background-image');
-    expect(backgroundImage).toBeTruthy();
+  it("renders the component", () => {
+    const { getByText } = render(<Candidates navigation={mockNavigation} />);
+    expect(getByText("Candidatos")).toBeTruthy();
   });
-
-  // Add more tests as needed
 });

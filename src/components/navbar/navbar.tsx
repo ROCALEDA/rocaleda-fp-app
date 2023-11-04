@@ -3,7 +3,7 @@ import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { View, Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-import { getUser, removeUser } from "../../../utils/token";
+import { getUser, removeUser } from "../../../utils/storage";
 
 type NavBarProps = {
   navigation: StackNavigationProp<ParamListBase>;

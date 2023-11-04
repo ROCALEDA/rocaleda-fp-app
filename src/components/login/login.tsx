@@ -15,7 +15,7 @@ import globalStyles from "../../../styles/global-styles"; // Adjust the path acc
 
 import { ImageBackground } from "react-native";
 import { login } from "../../../api/apiService";
-import { storeUser } from "../../../utils/token";
+import { storeUser } from "../../../utils/storage";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/routers";
 
@@ -37,9 +37,7 @@ const Login = ({ navigation }: LoginProps) => {
       console.log(data);
       if (data.token) {
         storeUser(data.token, data.role_id);
-        if (data.role_id == 1 || data.role_id == 2) {
-          navigation.navigate("Candidates");
-        }
+        navigation.navigate("Home");
         return;
       }
     } catch (error) {
