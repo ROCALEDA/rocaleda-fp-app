@@ -34,6 +34,7 @@ const AnimatedSkeleton = () => {
 
   return (
     <Animated.View
+      testID="animatedSkeleton"
       style={{ ...styles.skeletonCard, backgroundColor: interpolatedColor }}
     >
       <View style={styles.skeletonAvatar} />
