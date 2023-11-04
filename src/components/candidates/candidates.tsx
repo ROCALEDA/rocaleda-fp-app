@@ -1,17 +1,15 @@
 // Login.js
-import {
-  Text,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  Alert,
-} from "react-native";
-
-import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getToken, getUser } from "../../../utils/token";
+import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
+
+import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
+import CandidateCard from "./candidate-card";
+import { getUser } from "../../../utils/token";
+import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
+import { ParamListBase } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import AnimatedSkeleton from "./skeleton-card";
 
 type TCandidate = {
   fullname: string;
@@ -20,17 +18,19 @@ type TCandidate = {
   user_id: string;
 };
 
-const Candidates = ({}) => {
+type CandidateProps = {
+  navigation: StackNavigationProp<ParamListBase>;
+};
+
+const Candidates = ({ navigation }: CandidateProps) => {
   const [candidates, setCandidates] = useState<TCandidate[]>();
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Retrieve the item from AsyncStorage
         const user = await getUser();
         if (user?.token) {
-          // Make a fetch request using the retrieved item
           const response = await fetch(`${API_URL}/candidate`, {
             headers: {
               "Content-Type": "application/json",
@@ -38,6 +38,7 @@ const Candidates = ({}) => {
             },
           });
           const data = await response.json();
+          console.log("DATA USER", data);
           setCandidates(data.data);
         } else {
           Alert.alert(`Usuario no autenticado`);
@@ -53,33 +54,42 @@ const Candidates = ({}) => {
   }, []);
 
   return (
-    <ImageBackground
-      source={require("../../../assets/red-background.jpeg")} // Adjust the path accordingly
-      style={styles.backgroundImage}
-      testID="background-image"
-    >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
-      >
-        <Text style={globalStyles.text_title}>Candidates</Text>
-      </ScrollView>
-    </ImageBackground>
+    <View style={styles.container}>
+      <NavBar navigation={navigation} />
+      <Text style={globalStyles.text_title}>Candidatos</Text>
+      <View style={styles.list}>
+        {isLoading ? (
+          <>
+            <AnimatedSkeleton />
+            <AnimatedSkeleton />
+            <AnimatedSkeleton />
+            {/* Render as many skeletons as you want to simulate a full page */}
+          </>
+        ) : (
+          <FlatList
+            data={candidates}
+            keyExtractor={(item) => item.user_id.toString()}
+            renderItem={({ item }) => <CandidateCard user={item} />}
+          />
+        )}
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    resizeMode: "cover", // or 'stretch' or 'contain'
-  },
   container: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+    paddingVertical: 40,
+    backgroundColor: "#ffffff",
+    gap: 10,
   },
   contentContainer: {
     flexGrow: 1,
     justifyContent: "space-around",
+  },
+  list: {
+    paddingHorizontal: 30,
+    padding: 10,
   },
 });
 

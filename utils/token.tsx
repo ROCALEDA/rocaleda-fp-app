@@ -28,6 +28,16 @@ export const getUser = async () => {
   return null;
 };
 
+export const removeUser = async () => {
+  try {
+    await AsyncStorage.removeItem("@token_key");
+    await AsyncStorage.removeItem("@role_key");
+  } catch (e) {
+    // Handle removal error
+    console.error(e);
+  }
+};
+
 export const storeToken = async (token: string) => {
   try {
     await AsyncStorage.setItem("@token_key", token);

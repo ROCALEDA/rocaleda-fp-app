@@ -15,10 +15,14 @@ import globalStyles from "../../../styles/global-styles"; // Adjust the path acc
 
 import { ImageBackground } from "react-native";
 import { login } from "../../../api/apiService";
-import { storeToken, storeUser } from "../../../utils/token";
+import { storeUser } from "../../../utils/token";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { ParamListBase } from "@react-navigation/routers";
+
+type NavigationType = StackNavigationProp<ParamListBase>;
 
 type LoginProps = {
-  navigation: any;
+  navigation: NavigationType;
 };
 
 const Login = ({ navigation }: LoginProps) => {

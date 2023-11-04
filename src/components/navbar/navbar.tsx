@@ -1,29 +1,24 @@
-// Login.js
-import {
-  Text,
-  StyleSheet,
-  ScrollView,
-  ImageBackground,
-  Alert,
-} from "react-native";
-
-import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getToken, getUser } from "../../../utils/token";
-import API_URL from "../../../api/config";
+import { ParamListBase } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { View, Alert, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-type TCandidate = {
-  fullname: string;
-  soft_skills: { description: string; id: number; name: string }[];
-  tech_skills: { description: string; id: number; name: string }[];
-  user_id: string;
+import { getUser, removeUser } from "../../../utils/token";
+
+type NavBarProps = {
+  navigation: StackNavigationProp<ParamListBase>;
 };
 
-const Navbar = ({}) => {
-  const [roleId, setRoleId] = useState<number>();
+const LOGOS = {
+  "1": require("../../../assets/logo_admin.jpeg"),
+  "2": require("../../../assets/logo_empresas.jpeg"),
+  "3": require("../../../assets/logo_candidatos.jpeg"),
+  default: require("../../../assets/logo.png"),
+};
+type LogoKeys = keyof typeof LOGOS;
 
-  const [isLoading, setLoading] = useState(true);
+const NavBar = ({ navigation }: NavBarProps) => {
+  const [roleId, setRoleId] = useState<string>("");
 
   useEffect(() => {
     const setUserData = async () => {
@@ -36,43 +31,70 @@ const Navbar = ({}) => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
-    fetchData();
+    setUserData();
   }, []);
 
+  function getLogo() {
+    const key = roleId as LogoKeys;
+    return LOGOS[key] || LOGOS.default;
+  }
+
+  const handleLogoutPress = () => {
+    removeUser();
+    navigation.navigate("Login");
+  };
+
   return (
-    <ImageBackground
-      source={require("../../../assets/red-background.jpeg")} // Adjust the path accordingly
-      style={styles.backgroundImage}
-      testID="background-image"
-    >
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+    <View style={styles.navBar}>
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={() => navigation.goBack()}
       >
-        <Text style={globalStyles.text_title}>Candidates</Text>
-      </ScrollView>
-    </ImageBackground>
+        <Image
+          source={require("../../../assets/arrow_back.png")}
+          style={styles.icon}
+        />
+      </TouchableOpacity>
+      <View style={styles.navItem}>
+        <Image source={getLogo()} style={styles.logo} resizeMode="contain" />
+      </View>
+      <TouchableOpacity style={styles.navItem} onPress={handleLogoutPress}>
+        <Image
+          source={require("../../../assets/logout.png")}
+          style={styles.icon}
+        />
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  navBar: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 60,
+    backgroundColor: "#ffffff",
+  },
+  navItem: {
     flex: 1,
-    resizeMode: "cover", // or 'stretch' or 'contain'
+    alignItems: "center",
   },
-  container: {
-    paddingVertical: 20,
-    paddingHorizontal: 20,
+  navButtonText: {
+    fontSize: 16,
   },
-  contentContainer: {
-    flexGrow: 1,
-    justifyContent: "space-around",
+  logo: {
+    height: 40,
+    width: 200,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    marginRight: 5,
   },
 });
 
-export default Candidates;
+export default NavBar;
