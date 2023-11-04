@@ -51,6 +51,7 @@ const NavBar = ({ navigation }: NavBarProps) => {
     <View style={styles.navBar}>
       <TouchableOpacity
         style={styles.navItem}
+        testID="back-button"
         onPress={() => navigation.goBack()}
       >
         <Image
@@ -59,9 +60,19 @@ const NavBar = ({ navigation }: NavBarProps) => {
         />
       </TouchableOpacity>
       <View style={styles.navItem}>
-        <Image source={getLogo()} style={styles.logo} resizeMode="contain" />
+        <Image
+          source={getLogo()}
+          style={styles.logo}
+          resizeMode="contain"
+          testID="logo-image"
+        />
       </View>
-      <TouchableOpacity style={styles.navItem} onPress={handleLogoutPress}>
+
+      <TouchableOpacity
+        style={styles.navItem}
+        onPress={handleLogoutPress}
+        testID="logout-button"
+      >
         <Image
           source={require("../../../assets/logout.png")}
           style={styles.icon}
