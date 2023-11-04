@@ -32,19 +32,13 @@ describe("NavBar", () => {
     const backButton = await findByTestId("back-button");
     const logoutButton = await findByTestId("logout-button");
 
-    // Simulate user interaction
     fireEvent.press(backButton);
     fireEvent.press(logoutButton);
 
-    // Assert navigation function was called
     expect(mockGoBack).toHaveBeenCalled();
     expect(mockNavigate).toHaveBeenCalledWith("Login");
 
-    // You may also want to check if the correct logo is displayed
-    // based on the role ID that getUser would return
     const logo = getByTestId("logo-image");
     expect(logo.props.source).toBe(1);
   });
-
-  // ... other tests like checking if Alert is called when there is no user, etc.
 });
