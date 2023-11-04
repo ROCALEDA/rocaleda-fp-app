@@ -15,7 +15,7 @@ import globalStyles from "../../../styles/global-styles"; // Adjust the path acc
 
 import { ImageBackground } from "react-native";
 import { login } from "../../../api/apiService";
-import { storeToken } from "../../../utils/token";
+import { storeToken, storeUser } from "../../../utils/token";
 
 type LoginProps = {
   navigation: any;
@@ -31,10 +31,11 @@ const Login = ({ navigation }: LoginProps) => {
     try {
       const { data, status } = await login(email, password);
       console.log(data);
-      Alert.alert("Sesión iniciada");
       if (data.token) {
-        storeToken(data.token);
-        navigation.navigate("Home");
+        storeUser(data.token, data.role_id);
+        if (data.role_id == 1 || data.role_id == 2) {
+          navigation.navigate("Candidates");
+        }
         return;
       }
     } catch (error) {
