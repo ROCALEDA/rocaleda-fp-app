@@ -1,8 +1,7 @@
-import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
+
 import Login from "./login";
 import { login } from "../../../api/apiService";
-import { storeToken } from "../../../utils/storage";
 
 jest.mock("../../../api/apiService");
 jest.mock("../../../utils/storage");
