@@ -34,7 +34,6 @@ const Login = ({ navigation }: LoginProps) => {
     setLoading(true);
     try {
       const { data, status } = await login(email, password);
-      console.log(data);
       if (data.token) {
         storeUser(data.token, data.role_id);
         navigation.navigate("Home");
