@@ -35,7 +35,7 @@ const PositionCard = ({ position }: { position: TPosition }) => {
     <View style={styles.card}>
       <View style={styles.row}>
         <Image
-          source={require("../../../assets/person.png")}
+          source={require("../../../assets/box.png")}
           style={styles.icon}
         />
         <Text style={styles.title}>{position.open_position.position_name}</Text>
