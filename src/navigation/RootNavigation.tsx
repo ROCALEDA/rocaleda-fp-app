@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "../components/login/login";
 import Home from "../components/home/home";
 import SignUp from "../components/signup/signup";
+import Positions from "../components/positions/positions";
+import PositionDetail from "../components/positions/position-detail";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -23,7 +25,16 @@ export default function RootNavigation() {
           component={Home}
           options={{ headerShown: false }}
         />
-
+        <Stack.Screen
+          name="Positions"
+          component={Positions}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="PositionDetail"
+          component={PositionDetail}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SignUp"
           component={SignUp}

@@ -15,10 +15,14 @@ import globalStyles from "../../../styles/global-styles"; // Adjust the path acc
 
 import { ImageBackground } from "react-native";
 import { login } from "../../../api/apiService";
-import { storeToken } from "../../../utils/token";
+import { storeUser } from "../../../utils/storage";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { ParamListBase } from "@react-navigation/routers";
+
+type NavigationType = StackNavigationProp<ParamListBase>;
 
 type LoginProps = {
-  navigation: any;
+  navigation: NavigationType;
 };
 
 const Login = ({ navigation }: LoginProps) => {
@@ -30,10 +34,8 @@ const Login = ({ navigation }: LoginProps) => {
     setLoading(true);
     try {
       const { data, status } = await login(email, password);
-      console.log(data);
-      Alert.alert("Sesión iniciada");
       if (data.token) {
-        storeToken(data.token);
+        storeUser(data.token, data.role_id, data.user_id);
         navigation.navigate("Home");
         return;
       }

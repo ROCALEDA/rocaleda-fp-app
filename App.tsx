@@ -13,6 +13,8 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [fontsLoaded] = Font.useFonts({
     "Outfit-Regular": require("./assets/fonts/Outfit/Outfit-Regular.ttf"),
+    "Outfit-Bold": require("./assets/fonts/Outfit/Outfit-Bold.ttf"),
+    "Outfit-SemiBold": require("./assets/fonts/Outfit/Outfit-SemiBold.ttf"),
     "Philosopher-Regular": require("./assets/fonts/Philosopher/Philosopher-Regular.ttf"),
   });
 

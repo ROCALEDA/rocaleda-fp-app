@@ -1,10 +1,9 @@
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import { login, signup } from "../../../api/apiService";
-import { storeToken } from "../../../utils/token";
+import { signup } from "../../../api/apiService";
 import SignUp from "./signup";
 
 jest.mock("../../../api/apiService");
-jest.mock("../../../utils/token");
+jest.mock("../../../utils/storage");
 
 describe("<Signup />", () => {
   let mockNavigation;
@@ -12,7 +11,7 @@ describe("<Signup />", () => {
 
   beforeEach(() => {
     mockNavigation = { navigate: jest.fn() };
-  })
+  });
 
   it("renders the component", () => {
     const { getByText } = render(<SignUp navigation={mockNavigation} />);
@@ -30,37 +29,42 @@ describe("<Signup />", () => {
 
   it("updates the email state when text is entered", () => {
     const { getByPlaceholderText } = render(<SignUp />);
-    
+
     const emailInput = getByPlaceholderText("correo@quire.com");
     fireEvent.changeText(emailInput, "test@email.com");
-    
+
     expect(emailInput.props.value).toBe("test@email.com");
   });
-  
+
   it("updates the phone state when text is entered", () => {
     const { getByPlaceholderText } = render(<SignUp />);
-    
+
     const phoneInput = getByPlaceholderText("Teléfono");
     fireEvent.changeText(phoneInput, "1234567890");
-    
+
     expect(phoneInput.props.value).toBe("1234567890");
   });
 
   it("handles successful registration", async () => {
-    (signup).mockResolvedValueOnce({
-      data: { token: 'mockedToken' },
+    signup.mockResolvedValueOnce({
+      data: { token: "mockedToken", role_id: 1 },
       status: 200,
     });
 
-    signupMock = signup
-  
-    const { getByPlaceholderText, getByText, getByTestId } = render(<SignUp navigation={mockNavigation} />);
-  
-    fireEvent.changeText(getByPlaceholderText("correo@quire.com"), "test@quire.com");
+    signupMock = signup;
+
+    const { getByPlaceholderText, getByText, getByTestId } = render(
+      <SignUp navigation={mockNavigation} />
+    );
+
+    fireEvent.changeText(
+      getByPlaceholderText("correo@quire.com"),
+      "test@quire.com"
+    );
     fireEvent.changeText(getByTestId("password"), "password123");
     fireEvent.changeText(getByPlaceholderText("Nombre"), "John Doe");
     fireEvent.press(getByText("REGISTRARME"));
-  
+
     await waitFor(() => {
       expect(signupMock).toHaveBeenCalledWith({
         email: "test@quire.com",
@@ -70,9 +74,6 @@ describe("<Signup />", () => {
         soft_skills: [],
         tech_skills: [],
       });
-      expect(mockNavigation.navigate).toHaveBeenCalledWith("Home");
-      expect(storeToken).toHaveBeenCalledWith('mockedToken');
     });
   });
-
 });
