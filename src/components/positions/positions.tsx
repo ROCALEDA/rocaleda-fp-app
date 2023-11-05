@@ -120,14 +120,16 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     backgroundColor: "#ffffff",
     gap: 10,
+    flex: 1,
   },
   contentContainer: {
-    flexGrow: 1,
     justifyContent: "space-around",
   },
   list: {
     paddingHorizontal: 30,
     padding: 10,
+    flexGrow: 1,
+    flex: 1,
   },
 });
 
