@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
+import {
+  Text,
+  Alert,
+  StyleSheet,
+  FlatList,
+  View,
+  ScrollView,
+} from "react-native";
 
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
@@ -88,14 +95,16 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
     backgroundColor: "#ffffff",
     gap: 10,
+    flex: 1,
   },
   contentContainer: {
-    flexGrow: 1,
     justifyContent: "space-around",
   },
   list: {
     paddingHorizontal: 30,
-    padding: 10,
+    height: "100%",
+    flexGrow: 1,
+    flex: 1,
   },
 });
 
