@@ -54,15 +54,15 @@ const Home = ({ navigation }: HomeProps) => {
           {["3"].includes(roleId) && (
             <Pressable
               style={globalStyles.button_primary}
-              onPress={() => navigation.navigate("Entrevistas")}
+              onPress={() => navigation.navigate("Interviews")}
             >
               {renderTextBtn("ENTREVISTAS")}
             </Pressable>
           )}
-          {["1"].includes(roleId) && (
+          {["1", "3"].includes(roleId) && (
             <Pressable
               style={globalStyles.button_primary}
-              onPress={() => navigation.navigate("Candidatos")}
+              onPress={() => navigation.navigate("Candidates")}
             >
               {renderTextBtn("CANDIDATOS")}
             </Pressable>
@@ -70,9 +70,9 @@ const Home = ({ navigation }: HomeProps) => {
           {["1"].includes(roleId) && (
             <Pressable
               style={globalStyles.button_primary}
-              onPress={() => navigation.navigate("Proyectos")}
+              onPress={() => navigation.navigate("Positions")}
             >
-              {renderTextBtn("PROYECTOS")}
+              {renderTextBtn("POSICIONES")}
             </Pressable>
           )}
           {["2"].includes(roleId) && (
