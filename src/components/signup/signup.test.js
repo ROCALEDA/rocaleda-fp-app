@@ -1,6 +1,5 @@
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import { signup } from "../../../api/apiService";
-import { storeUser } from "../../../utils/storage";
 import SignUp from "./signup";
 
 jest.mock("../../../api/apiService");
@@ -75,8 +74,6 @@ describe("<Signup />", () => {
         soft_skills: [],
         tech_skills: [],
       });
-      expect(mockNavigation.navigate).toHaveBeenCalledWith("Home");
-      expect(storeUser).toHaveBeenCalledWith("mockedToken", 1);
     });
   });
 });

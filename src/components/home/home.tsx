@@ -59,15 +59,7 @@ const Home = ({ navigation }: HomeProps) => {
               {renderTextBtn("ENTREVISTAS")}
             </Pressable>
           )}
-          {["1"].includes(roleId) && (
-            <Pressable
-              style={globalStyles.button_primary}
-              onPress={() => navigation.navigate("Candidates")}
-            >
-              {renderTextBtn("CANDIDATOS")}
-            </Pressable>
-          )}
-          {["1"].includes(roleId) && (
+          {["1", "2"].includes(roleId) && (
             <Pressable
               style={globalStyles.button_primary}
               onPress={() => navigation.navigate("Positions")}

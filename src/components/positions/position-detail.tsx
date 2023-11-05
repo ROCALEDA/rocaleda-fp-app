@@ -1,14 +1,19 @@
 import { useEffect, useState } from "react";
+import { ParamListBase, RouteProp } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
-import CandidateCard from "./candidate-card";
 import { getUser } from "../../../utils/storage";
-import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
-import { ParamListBase } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import AnimatedSkeleton from "./skeleton-card";
+import globalStyles from "../../../styles/global-styles";
+import AnimatedSkeleton from "../skeletons/skeleton-card";
+import CandidateCard from "../candidates/candidate-card";
+
+type PositionsProps = {
+  navigation: StackNavigationProp<ParamListBase>;
+  route: any;
+};
 
 type TCandidate = {
   fullname: string;
@@ -17,27 +22,30 @@ type TCandidate = {
   user_id: string;
 };
 
-type CandidateProps = {
-  navigation: StackNavigationProp<ParamListBase>;
-};
-
-const Candidates = ({ navigation }: CandidateProps) => {
+const PositionDetail = ({ navigation, route }: PositionsProps) => {
   const [candidates, setCandidates] = useState<TCandidate[]>();
   const [isLoading, setLoading] = useState(true);
+  console.log("candidates", candidates);
+  const { positionId, positionName } = route.params;
+  console.log("POSITIONID", positionId);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const user = await getUser();
-        if (user?.token) {
-          const response = await fetch(`${API_URL}/candidate`, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          });
+        if (user?.token && positionId) {
+          const response = await fetch(
+            `${API_URL}/positions/${positionId}/candidates`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
           const data = await response.json();
-          setCandidates(data.data);
+          console.log("data", data);
+          setCandidates(data);
         } else {
           Alert.alert(`Usuario no autenticado`);
         }
@@ -54,7 +62,7 @@ const Candidates = ({ navigation }: CandidateProps) => {
   return (
     <View style={styles.container}>
       <NavBar navigation={navigation} />
-      <Text style={globalStyles.text_title}>Candidatos</Text>
+      <Text style={globalStyles.text_title}>Candidatos de {positionName}</Text>
       <View style={styles.list}>
         {isLoading ? (
           <>
@@ -91,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Candidates;
+export default PositionDetail;

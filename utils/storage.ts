@@ -1,9 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const storeUser = async (token: string, role_id: number) => {
+export const storeUser = async (
+  token: string,
+  role_id: number,
+  user_id: number
+) => {
   try {
     await AsyncStorage.setItem("@token_key", token);
     await AsyncStorage.setItem("@role_key", role_id.toString());
+    await AsyncStorage.setItem("@user_key", user_id.toString());
   } catch (e) {
     // Handle saving error
     console.error(e);
@@ -14,11 +19,13 @@ export const getUser = async () => {
   try {
     const token = await AsyncStorage.getItem("@token_key");
     const role = await AsyncStorage.getItem("@role_key");
+    const id = await AsyncStorage.getItem("@user_key");
 
     if (token !== null && role !== null) {
       return {
         token,
         role,
+        id,
       };
     }
   } catch (e) {
@@ -32,6 +39,7 @@ export const removeUser = async () => {
   try {
     await AsyncStorage.removeItem("@token_key");
     await AsyncStorage.removeItem("@role_key");
+    await AsyncStorage.removeItem("@user_key");
   } catch (e) {
     // Handle removal error
     console.error(e);

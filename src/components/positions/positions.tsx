@@ -29,6 +29,12 @@ type TPosition = {
   technology_ids: number[];
 };
 
+type TUser = {
+  token: string;
+  role: string;
+  id: string | null;
+} | null;
+
 type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
 };
@@ -36,11 +42,13 @@ type PositionsProps = {
 const Positions = ({ navigation }: PositionsProps) => {
   const [positions, setPositions] = useState<TPosition[]>();
   const [isLoading, setLoading] = useState(true);
+  const [user, setUser] = useState<TUser>();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const user = await getUser();
+        setUser(user);
         if (user?.token) {
           const response = await fetch(`${API_URL}/positions`, {
             headers: {
@@ -48,8 +56,19 @@ const Positions = ({ navigation }: PositionsProps) => {
               Authorization: `Bearer ${user.token}`,
             },
           });
-          const data = await response.json();
-          setPositions(data);
+          console.log("user", user);
+          if (response.ok) {
+            const data = await response.json();
+            if (user.role == "2") {
+              const filteredPositions = data.filter(
+                (position: TPosition) =>
+                  position.project.customer_id === Number(user.id)
+              );
+              setPositions(filteredPositions);
+            } else {
+              setPositions(data);
+            }
+          }
         } else {
           Alert.alert(`Usuario no autenticado`);
         }
@@ -66,7 +85,9 @@ const Positions = ({ navigation }: PositionsProps) => {
   return (
     <View style={styles.container}>
       <NavBar navigation={navigation} />
-      <Text style={globalStyles.text_title}>Posiciones</Text>
+      <Text style={globalStyles.text_title}>
+        {user?.role === "2" ? "Mis posiciones" : "Posiciones"}
+      </Text>
       <View style={styles.list}>
         {isLoading ? (
           <>
@@ -84,6 +105,7 @@ const Positions = ({ navigation }: PositionsProps) => {
               <PositionCard
                 position={item}
                 key={`po${item.open_position.id.toString()}-pr${item.project.id.toString()}`}
+                navigation={navigation}
               />
             )}
           />

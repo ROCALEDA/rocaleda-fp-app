@@ -48,7 +48,8 @@ const SignUp = ({ navigation }: LoginProps) => {
       if (data.id) {
         const { data, status } = await login(email, password);
         if (data.token) {
-          storeUser(data.token, data.role_id);
+          storeUser(data.token, data.role_id, data.user_id);
+
           navigation.navigate("Home");
           return;
         }
