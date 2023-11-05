@@ -5,6 +5,7 @@ import Login from "../components/login/login";
 import Home from "../components/home/home";
 import SignUp from "../components/signup/signup";
 import Candidates from "../components/candidates/candidates";
+import Positions from "../components/positions/positions";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,6 +28,11 @@ export default function RootNavigation() {
         <Stack.Screen
           name="Candidates"
           component={Candidates}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Positions"
+          component={Positions}
           options={{ headerShown: false }}
         />
         <Stack.Screen

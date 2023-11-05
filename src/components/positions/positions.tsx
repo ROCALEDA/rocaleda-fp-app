@@ -1,28 +1,40 @@
 import { useEffect, useState } from "react";
+import { ParamListBase } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
-import CandidateCard from "./candidate-card";
 import { getUser } from "../../../utils/storage";
-import globalStyles from "../../../styles/global-styles"; // Adjust the path accordingly
-import { ParamListBase } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import AnimatedSkeleton from "./skeleton-card";
+import globalStyles from "../../../styles/global-styles";
+import AnimatedSkeleton from "../skeletons/skeleton-card";
+import PositionCard from "./position-card";
 
-type TCandidate = {
-  fullname: string;
-  soft_skills: { description: string; id: number; name: string }[];
-  tech_skills: { description: string; id: number; name: string }[];
-  user_id: string;
+type TPosition = {
+  open_position: {
+    candidate_id: number | null;
+    id: number;
+    is_open: boolean;
+    position_name: string;
+    project_id: number;
+  };
+  project: {
+    customer_id: number;
+    description: string;
+    id: number;
+    is_team_complete: boolean;
+    name: string;
+  };
+  soft_skill_ids: number[];
+  technology_ids: number[];
 };
 
-type CandidateProps = {
+type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
 };
 
-const Candidates = ({ navigation }: CandidateProps) => {
-  const [candidates, setCandidates] = useState<TCandidate[]>();
+const Positions = ({ navigation }: PositionsProps) => {
+  const [positions, setPositions] = useState<TPosition[]>();
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,14 +42,14 @@ const Candidates = ({ navigation }: CandidateProps) => {
       try {
         const user = await getUser();
         if (user?.token) {
-          const response = await fetch(`${API_URL}/candidate`, {
+          const response = await fetch(`${API_URL}/positions`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
             },
           });
           const data = await response.json();
-          setCandidates(data.data);
+          setPositions(data);
         } else {
           Alert.alert(`Usuario no autenticado`);
         }
@@ -54,20 +66,26 @@ const Candidates = ({ navigation }: CandidateProps) => {
   return (
     <View style={styles.container}>
       <NavBar navigation={navigation} />
-      <Text style={globalStyles.text_title}>Candidatos</Text>
+      <Text style={globalStyles.text_title}>Posiciones</Text>
       <View style={styles.list}>
         {isLoading ? (
           <>
             <AnimatedSkeleton />
             <AnimatedSkeleton />
             <AnimatedSkeleton />
-            {/* Render as many skeletons as you want to simulate a full page */}
           </>
         ) : (
           <FlatList
-            data={candidates}
-            keyExtractor={(item) => item.user_id.toString()}
-            renderItem={({ item }) => <CandidateCard user={item} />}
+            data={positions}
+            keyExtractor={(position) =>
+              `po${position.open_position.id.toString()}-pr${position.project.id.toString()}`
+            }
+            renderItem={({ item }) => (
+              <PositionCard
+                position={item}
+                key={`po${item.open_position.id.toString()}-pr${item.project.id.toString()}`}
+              />
+            )}
           />
         )}
       </View>
@@ -91,4 +109,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Candidates;
+export default Positions;
