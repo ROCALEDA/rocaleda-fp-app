@@ -43,6 +43,13 @@ const globalStyles = StyleSheet.create({
     fontSize: 16,
     textTransform: "uppercase",
     textAlign: "center",
+    color: "#A15CAC",
+  },
+  button_outlined: {
+    borderColor: "#A15CAC",
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 5,
   },
 });
 
