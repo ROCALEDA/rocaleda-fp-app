@@ -1,132 +1,317 @@
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text, StyleSheet, View, TextInput, Pressable } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TextInput,
+  Pressable,
+  Alert,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import Slider from "@react-native-community/slider";
 
 import NavBar from "../navbar/navbar";
 import globalStyles from "../../../styles/global-styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Picker } from "@react-native-picker/picker";
 import {
   renderPrimaryButtonText,
   renderSecondaryButtonText,
 } from "../../../utils/buttons";
+import { getUser } from "../../../utils/storage";
+import { TUser } from "../../../types/user";
+import API_URL from "../../../api/config";
+import {
+  TPerformanceReview,
+  TProfile,
+  TProject,
+} from "../../../types/projects";
+import RectangleSkeleton from "../skeletons/skeleton-rectangle";
 
 type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
 };
 
 const Performance = ({ navigation }: PositionsProps) => {
-  const [project, setProject] = useState("");
-  const [profile, setProfile] = useState("");
+  const [projectId, setProjectId] = useState<number | null>(null);
+  const [candidateId, setCandidateId] = useState<number | null>(null);
   const [description, setDescription] = useState("");
-  const [sliderValue, setSliderValue] = useState(0);
+  const [score, setScore] = useState(0);
+  const [user, setUser] = useState<TUser>();
+
+  const [isLoading, setLoading] = useState(false);
+  const [isLoadingProjects, setLoadingProjects] = useState(true);
+  const [isLoadingProfile, setLoadingProfile] = useState(false);
+
+  const [projects, setProjects] = useState<TProject[]>();
+  const [profiles, setProfiles] = useState<TProfile[] | null>(null);
 
   const validateForm = () => {
-    if (!project) {
+    if (!projectId) {
       alert("Please select a project");
       return false;
     }
-    if (!profile) {
-      alert("Please select a profile");
+    if (!candidateId) {
+      alert("Please select a candidate");
       return false;
     }
     if (!description) {
-      alert("Description cannot be empty");
+      alert("Observations cannot be empty");
       return false;
     }
     return true;
   };
 
-  const handleSubmit = () => {
-    if (validateForm()) {
-      // Submit form logic
-      console.log({ project, profile, description, sliderValue });
+  const sendPerformanceReview = async (performance: TPerformanceReview) => {
+    console.log("sendPerformanceReview", sendPerformanceReview);
+    try {
+      setLoading(true);
+      if (user?.token) {
+        const response = await fetch(`${API_URL}/positions/evaluations`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(performance),
+          method: "POST",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log("RESPONSE DATA", data);
+          if (data) {
+            Alert.alert(`Evaluación de desempeño guardada`);
+            navigation.navigate("Home");
+          }
+        }
+      } else {
+        Alert.alert(`Usuario no autenticado`);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleSubmit = () => {
+    if (validateForm()) {
+      if (projectId && candidateId) {
+        sendPerformanceReview({
+          project_id: projectId,
+          name: "Performance review",
+          candidate_id: candidateId,
+          score: score,
+          observations: description,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const user = await getUser();
+        setUser(user);
+        if (user?.token) {
+          const response = await fetch(`${API_URL}/customer/projects`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          });
+          if (response.ok) {
+            const data = await response.json();
+            setProjects(data);
+          }
+        } else {
+          Alert.alert(`Usuario no autenticado`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoadingProjects(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    const fetchProfiles = async () => {
+      try {
+        setLoadingProfile(true);
+        setCandidateId(null);
+        if (user?.token) {
+          const response = await fetch(
+            `${API_URL}/positions/closed/${projectId}`,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setProfiles(data);
+          }
+        } else {
+          Alert.alert(`Usuario no autenticado`);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoadingProfile(false);
+      }
+    };
+
+    if (projectId) {
+      fetchProfiles();
+    }
+  }, [projectId]);
+
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
       <NavBar navigation={navigation} />
       <Text style={globalStyles.text_title}>Evaluación de desempeño</Text>
       <View style={styles.form}>
         <View>
           <Text style={globalStyles.text_label}>Proyecto</Text>
-          <View style={styles.bordered}>
-            <Picker
-              selectedValue={project}
-              onValueChange={(itemValue) => setProject(itemValue)}
-            >
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker>
-          </View>
+          {isLoadingProjects ? (
+            <RectangleSkeleton />
+          ) : (
+            <View style={styles.bordered}>
+              <Picker
+                selectedValue={projectId}
+                onValueChange={(itemValue) => setProjectId(itemValue)}
+              >
+                <Picker.Item
+                  label="Selecciona un proyecto"
+                  value={null}
+                  key={null}
+                />
+                {projects?.map((project: TProject) => (
+                  <Picker.Item
+                    label={project.name}
+                    value={project.id}
+                    key={project.id}
+                  />
+                ))}
+              </Picker>
+            </View>
+          )}
         </View>
-        <View>
-          <Text style={globalStyles.text_label}>Perfil</Text>
-          <View style={styles.bordered}>
-            <Picker
-              selectedValue={profile}
-              onValueChange={(itemValue) => setProfile(itemValue)}
-            >
-              <Picker.Item label="Java" value="java" />
-              <Picker.Item label="JavaScript" value="js" />
-            </Picker>
-          </View>
-        </View>
-        <View>
-          <Text style={globalStyles.text_label}>Description</Text>
-          <TextInput
-            multiline
-            numberOfLines={4}
-            onChangeText={(text) => setDescription(text)}
-            value={description}
-            style={styles.bordered}
-          />
-        </View>
-        <View>
-          <Text style={globalStyles.text_label}>Score (0-100)</Text>
+        {profiles?.length == 0 && (
+          <Text style={globalStyles.text_label}>
+            No hay empleados o posiciones activas en el proyecto seleccionado
+          </Text>
+        )}
+        {projectId && (isLoadingProjects || profiles != null) && (
+          <>
+            <View>
+              <Text style={globalStyles.text_label}>Empleado</Text>
+              {isLoadingProjects || isLoadingProfile ? (
+                <RectangleSkeleton />
+              ) : (
+                <>
+                  <View style={styles.bordered}>
+                    <Picker
+                      selectedValue={candidateId}
+                      onValueChange={(itemValue) => setCandidateId(itemValue)}
+                    >
+                      <Picker.Item
+                        label="Selecciona un empleado"
+                        value={null}
+                        key={null}
+                      />
+                      {profiles?.map((profileItem: TProfile) => (
+                        <Picker.Item
+                          label={`${profileItem.candidate_name} - ${profileItem.position_name}`}
+                          value={profileItem.candidate_id}
+                          key={profileItem.candidate_id}
+                        />
+                      ))}
+                    </Picker>
+                  </View>
+                  {!candidateId && (
+                    <Text style={globalStyles.text_error}>
+                      Selecciona un empleado
+                    </Text>
+                  )}
+                </>
+              )}
+            </View>
 
-          <Slider
-            step={1}
-            minimumValue={0}
-            maximumValue={100}
-            onValueChange={setSliderValue}
-            value={sliderValue}
-            minimumTrackTintColor="#A15CAC"
-            maximumTrackTintColor="#EAB5FD"
-            thumbTintColor="#A15CAC"
-            style={{ width: "100%", height: 40 }}
-          />
-          <View style={styles.score}>
-            <Text>{sliderValue}</Text>
-          </View>
-        </View>
-        <View style={styles.buttons}>
-          <Pressable
-            style={globalStyles.button_outlined}
-            onPress={() => navigation.navigate("Home")}
-          >
-            {renderSecondaryButtonText("CANCEL")}
-          </Pressable>
-          <Pressable
-            style={globalStyles.button_primary}
-            onPress={() => navigation.navigate("Performance")}
-          >
-            {renderPrimaryButtonText("SUBMIT")}
-          </Pressable>
-        </View>
+            <View>
+              <Text style={globalStyles.text_label}>Description</Text>
+              <TextInput
+                multiline
+                numberOfLines={4}
+                onChangeText={(text) => setDescription(text)}
+                value={description}
+                style={styles.bordered}
+              />
+              {!description && (
+                <Text style={globalStyles.text_error}>
+                  Observación del desempeño del candidato
+                </Text>
+              )}
+            </View>
+            <View>
+              <Text style={globalStyles.text_label}>Score (0-100)</Text>
+              <Slider
+                step={1}
+                minimumValue={0}
+                maximumValue={100}
+                onValueChange={setScore}
+                value={score}
+                minimumTrackTintColor="#A15CAC"
+                maximumTrackTintColor="#EAB5FD"
+                thumbTintColor="#A15CAC"
+                style={{ width: "100%", height: 40 }}
+              />
+              <View style={styles.score}>
+                <Text>{score}</Text>
+              </View>
+            </View>
+            <View style={styles.buttons}>
+              <Pressable
+                style={globalStyles.button_outlined}
+                onPress={() => navigation.navigate("Home")}
+              >
+                {renderSecondaryButtonText("CANCEL")}
+              </Pressable>
+              <Pressable
+                style={globalStyles.button_primary}
+                onPress={() => handleSubmit()}
+              >
+                {isLoading ? (
+                  <ActivityIndicator />
+                ) : (
+                  renderPrimaryButtonText("SUBMIT")
+                )}
+              </Pressable>
+            </View>
+          </>
+        )}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     paddingVertical: 40,
-    backgroundColor: "#ffffff",
-    gap: 10,
-    flex: 1,
+    backgroundColor: "#fff",
+  },
+  contentContainer: {
+    gap: 20,
+    justifyContent: "space-around",
   },
   form: {
     padding: 30,

@@ -9,6 +9,7 @@ import { getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles";
 import AnimatedSkeleton from "../skeletons/skeleton-card";
 import PositionCard from "./position-card";
+import { TUser } from "../../../types/user";
 
 type TPosition = {
   open_position: {
@@ -28,12 +29,6 @@ type TPosition = {
   soft_skill_ids: number[];
   technology_ids: number[];
 };
-
-type TUser = {
-  token: string;
-  role: string;
-  id: string | null;
-} | null;
 
 type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
