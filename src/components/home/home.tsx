@@ -23,15 +23,11 @@ const Home = ({ navigation }: HomeProps) => {
 
   useEffect(() => {
     const setUserData = async () => {
-      try {
-        const user = await getUser();
-        if (user?.token && user.role) {
-          setRoleId(user.role);
-        } else {
-          Alert.alert(`Usuario no autenticado`);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const user = await getUser();
+      if (user?.token && user.role) {
+        setRoleId(user.role);
+      } else {
+        Alert.alert(`Usuario no autenticado`);
       }
     };
 
@@ -55,6 +51,7 @@ const Home = ({ navigation }: HomeProps) => {
             <Pressable
               style={globalStyles.button_primary}
               onPress={() => navigation.navigate("Interviews")}
+              aria-label="Interviews"
             >
               {renderTextBtn("ENTREVISTAS")}
             </Pressable>
