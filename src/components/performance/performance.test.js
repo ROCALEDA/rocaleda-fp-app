@@ -18,7 +18,7 @@ jest.mock("../../../api/config", () => ({
   default: "http://mock-api-url.com",
 }));
 
-const mockProjectData = [
+const mockProjectsData = [
   {
     id: 1,
     name: "Project Alpha",

@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
-import { ParamListBase, RouteProp } from "@react-navigation/native";
+import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import {
-  Text,
-  Alert,
-  StyleSheet,
-  FlatList,
-  View,
-  ScrollView,
-} from "react-native";
+import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
@@ -26,9 +19,7 @@ type PositionsProps = {
 const PositionDetail = ({ navigation, route }: PositionsProps) => {
   const [candidates, setCandidates] = useState<TCandidate[]>();
   const [isLoading, setLoading] = useState(true);
-  console.log("candidates", candidates);
   const { positionId, positionName } = route.params;
-  console.log("POSITIONID", positionId);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,7 +36,6 @@ const PositionDetail = ({ navigation, route }: PositionsProps) => {
             }
           );
           const data = await response.json();
-          console.log("data", data);
           setCandidates(data);
         } else {
           Alert.alert(`Usuario no autenticado`);
@@ -70,10 +60,10 @@ const PositionDetail = ({ navigation, route }: PositionsProps) => {
             <AnimatedSkeleton />
             <AnimatedSkeleton />
             <AnimatedSkeleton />
-            {/* Render as many skeletons as you want to simulate a full page */}
           </>
         ) : (
           <FlatList
+            testID="candidate-list"
             data={candidates}
             keyExtractor={(item) => item.user_id.toString()}
             renderItem={({ item }) => <CandidateCard user={item} />}
