@@ -1,8 +1,6 @@
 import { render, waitFor, act } from "@testing-library/react-native";
 import PositionDetail from "./position-detail";
 
-jest.mock("../../../api/apiService");
-jest.mock("../../../utils/storage");
 jest.mock("../../../api/config", () => ({
   __esModule: true,
   default: "http://mock-api-url.com",

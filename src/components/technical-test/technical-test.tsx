@@ -236,6 +236,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
               <>
                 <View style={styles.bordered}>
                   <Picker
+                    testID="position-picker"
                     selectedValue={positionId}
                     onValueChange={(itemId) => setPositionId(itemId)}
                   >
@@ -276,6 +277,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
                     <>
                       <View style={styles.bordered}>
                         <Picker
+                          testID="candidate-picker"
                           selectedValue={candidateId}
                           onValueChange={(itemId) => setCandidateId(itemId)}
                         >
@@ -309,6 +311,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
                     onChangeText={(text) => setDescription(text)}
                     value={description}
                     style={styles.bordered}
+                    placeholder="Observación"
                   />
                   {!description && (
                     <Text style={globalStyles.text_error}>
