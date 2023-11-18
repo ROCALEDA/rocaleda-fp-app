@@ -16,17 +16,11 @@ import { getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles";
 import AnimatedSkeleton from "../skeletons/skeleton-card";
 import CandidateCard from "../candidates/candidate-card";
+import { TCandidate } from "../../../types/user";
 
 type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
   route: any;
-};
-
-type TCandidate = {
-  fullname: string;
-  soft_skills: { description: string; id: number; name: string }[];
-  tech_skills: { description: string; id: number; name: string }[];
-  user_id: string;
 };
 
 const PositionDetail = ({ navigation, route }: PositionsProps) => {

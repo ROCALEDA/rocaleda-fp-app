@@ -8,6 +8,7 @@ import Positions from "../components/positions/positions";
 import Performance from "../components/performance/performance";
 
 import PositionDetail from "../components/positions/position-detail";
+import TechnicalTest from "../components/technical-test/technical-test";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,6 +46,11 @@ export default function RootNavigation() {
         <Stack.Screen
           name="Performance"
           component={Performance}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="TechnicalTest"
+          component={TechnicalTest}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

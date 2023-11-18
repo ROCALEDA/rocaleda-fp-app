@@ -75,6 +75,14 @@ const Home = ({ navigation }: HomeProps) => {
               {renderTextBtn("EVALUAR DESEMPEÑO")}
             </Pressable>
           )}
+          {["2"].includes(roleId) && (
+            <Pressable
+              style={globalStyles.button_primary}
+              onPress={() => navigation.navigate("TechnicalTest")}
+            >
+              {renderTextBtn("REGISTRAR PRUEBA TÉCNICA")}
+            </Pressable>
+          )}
         </View>
       </View>
     </ImageBackground>
