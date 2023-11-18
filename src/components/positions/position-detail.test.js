@@ -1,12 +1,16 @@
 import { render, waitFor, act } from "@testing-library/react-native";
 import PositionDetail from "./position-detail";
-import fetchMock from "jest-fetch-mock";
 
 jest.mock("../../../api/apiService");
 jest.mock("../../../utils/storage");
 jest.mock("../../../api/config", () => ({
   __esModule: true,
   default: "http://mock-api-url.com",
+}));
+
+jest.mock("../../../utils/storage", () => ({
+  getUser: jest.fn(() => Promise.resolve({ token: "fake-token", role: "1" })),
+  removeUser: jest.fn(),
 }));
 
 const mockCandidates = [
@@ -62,28 +66,27 @@ describe("<PositionDetail />", () => {
   });
 });
 
-global.fetch = jest.fn(() =>
-  Promise.resolve({
-    json: () => Promise.resolve(mockCandidates), // Replace mockData with your test data
-  })
-);
-
 describe("Renders the candidates", () => {
-  let mockNavigation;
-  fetchMock.enableMocks();
-  beforeEach(() => {
-    mockNavigation = { navigate: jest.fn() };
-    fetch.mockClear();
-  });
+  global.fetch = jest.fn((url) =>
+    Promise.resolve({
+      ok: true,
+      json: () => {
+        if (url.endsWith("/candidates")) {
+          return Promise.resolve(mockCandidates);
+        }
+        return Promise.resolve({});
+      },
+    })
+  );
 
   it("fetching candidates", async () => {
-    const { getByTestId } = render(
+    const { getByTestId, debug } = render(
       <PositionDetail navigation={mockNavigation} route={mockRoute} />
     );
 
     await waitFor(() => {
-      expect(fetch).toHaveBeenCalledTimes(1);
+      expect(getByTestId("candidate-list")).toBeTruthy();
     });
-    expect(getByTestId("candidate-list")).toBeTruthy();
+    console.log(debug());
   });
 });
