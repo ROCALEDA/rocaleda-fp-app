@@ -23,6 +23,11 @@ const globalStyles = StyleSheet.create({
     fontFamily: "Outfit-Regular",
     color: "#2D3748",
   },
+  text_error: {
+    fontSize: 10,
+    fontFamily: "Outfit-Regular",
+    color: "#ED8B84",
+  },
   button_primary: {
     backgroundColor: "#A15CAC", // Set the background color
     padding: 10,
@@ -43,6 +48,13 @@ const globalStyles = StyleSheet.create({
     fontSize: 16,
     textTransform: "uppercase",
     textAlign: "center",
+    color: "#A15CAC",
+  },
+  button_outlined: {
+    borderColor: "#A15CAC",
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 5,
   },
 });
 

@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Animated, View, StyleSheet } from "react-native";
-
 import { runAnimation } from "../../../utils/animations";
 
-const AnimatedSkeleton = () => {
+const RectangleSkeleton = () => {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -19,11 +18,7 @@ const AnimatedSkeleton = () => {
     <Animated.View
       testID="animatedSkeleton"
       style={{ ...styles.skeletonCard, backgroundColor: interpolatedColor }}
-    >
-      <View style={styles.skeletonAvatar} />
-      <View style={styles.skeletonLine} />
-      <View style={styles.skeletonLine} />
-    </Animated.View>
+    ></Animated.View>
   );
 };
 
@@ -33,13 +28,6 @@ const styles = StyleSheet.create({
     padding: 16,
     marginVertical: 16,
   },
-  skeletonAvatar: {
-    width: 60,
-    height: 60,
-    backgroundColor: "#F5F5F5",
-    borderRadius: 30,
-    marginBottom: 10,
-  },
   skeletonLine: {
     height: 10,
     backgroundColor: "#F5F5F5",
@@ -48,4 +36,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AnimatedSkeleton;
+export default RectangleSkeleton;
