@@ -189,6 +189,7 @@ const Performance = ({ navigation }: PositionsProps) => {
               <Picker
                 selectedValue={projectId}
                 onValueChange={(itemValue) => setProjectId(itemValue)}
+                testID="project-picker"
               >
                 <Picker.Item
                   label="Selecciona un proyecto"
