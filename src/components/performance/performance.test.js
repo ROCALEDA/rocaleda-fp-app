@@ -1,6 +1,6 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
-import Performance from "./Performance"; // adjust the import path as needed
+import Performance from "./performance"; // adjust the import path as needed
 
 jest.mock("@react-native-picker/picker", () => {
   const RealComponent = jest.requireActual("@react-native-picker/picker");
