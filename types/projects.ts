@@ -24,10 +24,8 @@ export type TProfile = {
   position_name: string;
 };
 
-export type TPerformanceReview = {
-  project_id: number;
+export type TPosition = {
+  id: number;
+  is_open: boolean;
   name: string;
-  candidate_id: number;
-  score: number;
-  observations: string;
 };

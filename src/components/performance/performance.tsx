@@ -2,11 +2,11 @@ import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import {
   Text,
-  StyleSheet,
   View,
+  Alert,
   TextInput,
   Pressable,
-  Alert,
+  StyleSheet,
   ScrollView,
   ActivityIndicator,
 } from "react-native";
@@ -23,12 +23,9 @@ import {
 import { getUser } from "../../../utils/storage";
 import { TUser } from "../../../types/user";
 import API_URL from "../../../api/config";
-import {
-  TPerformanceReview,
-  TProfile,
-  TProject,
-} from "../../../types/projects";
+import { TProfile, TProject } from "../../../types/projects";
 import RectangleSkeleton from "../skeletons/skeleton-rectangle";
+import { TPerformanceReviewPayload } from "../../../types/review";
 
 type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
@@ -64,7 +61,9 @@ const Performance = ({ navigation }: PositionsProps) => {
     return true;
   };
 
-  const sendPerformanceReview = async (performance: TPerformanceReview) => {
+  const sendPerformanceReview = async (
+    performance: TPerformanceReviewPayload
+  ) => {
     console.log("sendPerformanceReview", sendPerformanceReview);
     try {
       setLoading(true);
