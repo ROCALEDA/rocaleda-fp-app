@@ -47,7 +47,7 @@ const Home = ({ navigation }: HomeProps) => {
       <View style={styles.container}>
         <NavBar navigation={navigation} />
         <View style={styles.content}>
-          {["3"].includes(roleId) && (
+          {["2", "3"].includes(roleId) && (
             <Pressable
               style={globalStyles.button_primary}
               onPress={() => navigation.navigate("Interviews")}

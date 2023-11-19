@@ -6,9 +6,10 @@ import Home from "../components/home/home";
 import SignUp from "../components/signup/signup";
 import Positions from "../components/positions/positions";
 import Performance from "../components/performance/performance";
-
 import PositionDetail from "../components/positions/position-detail";
 import TechnicalTest from "../components/technical-test/technical-test";
+import Interviews from "../components/interviews/interviews";
+
 
 SplashScreen.preventAutoHideAsync();
 
@@ -53,6 +54,13 @@ export default function RootNavigation() {
           component={TechnicalTest}
           options={{ headerShown: false }}
         />
+
+        <Stack.Screen
+          name="Interviews"
+          component={Interviews}
+          options={{ headerShown: false }}
+        />
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
