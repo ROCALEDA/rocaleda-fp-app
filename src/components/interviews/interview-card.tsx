@@ -21,13 +21,14 @@ const InterviewCard = ({ interview, navigation }: InterviewCardProps) => {
       }
     >*/
     <View style={styles.card}>
-      <View style={styles.row}>
-        {typeof interview.score === "number" ? (
-          <Chip label="" backgroundColor="#B1E5D9" />
-        ) : (
-          <Chip label="" backgroundColor="#F3DA90" />
-        )}
-      </View>
+      <View
+        style={[
+          styles.circle,
+          typeof interview.score === "number"
+            ? styles.complete
+            : styles.pending,
+        ]}
+      ></View>
       <View style={styles.row}>
         {typeof interview.score === "number" ? (
           <Chip label="Completada" backgroundColor="#B1E5D9" />
@@ -36,29 +37,26 @@ const InterviewCard = ({ interview, navigation }: InterviewCardProps) => {
         )}
       </View>
       <View style={styles.row}>
-        <Text style={styles.title}>{interview.subject}</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>{interview.client_name}</Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>
-          {getDay(interview.realization_date)}
-        </Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>
-          {getMonth(interview.realization_date)}
-        </Text>
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>
-          {formatTime(interview.realization_date)}
-        </Text>
+        <View style={[styles.column, styles.startdetails]}>
+          <Text style={styles.title}>{interview.subject}</Text>
+          <Text style={styles.subtitle}>{interview.client_name}</Text>
+        </View>
+        <View style={styles.rectangle} />
+        <View style={styles.datetime}>
+          <View style={styles.column}>
+            <Text style={styles.title}>
+              {getDay(interview.realization_date)}
+            </Text>
+            <Text style={styles.month}>
+              {getMonth(interview.realization_date)}
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>
+              {formatTime(interview.realization_date)}
+            </Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -67,12 +65,21 @@ const InterviewCard = ({ interview, navigation }: InterviewCardProps) => {
 const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
+    margin: 2,
+  },
+  column: {
+    flexDirection: "column",
+    paddingEnd: 7,
   },
   card: {
     backgroundColor: "white",
     borderRadius: 4,
-    padding: 16,
+    paddingTop: 6,
+    paddingBottom: 12,
+    paddingLeft: 24,
+    paddingRight: 5,
     marginVertical: 16,
+    marginHorizontal: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -80,18 +87,47 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
   },
   subtitle: {
     fontSize: 16,
     marginTop: 10,
-    fontWeight: "600",
+    color: "#718096",
   },
-  icon: {
-    width: 20,
-    height: 20,
-    marginRight: 5,
+  rectangle: {
+    width: 3,
+    borderColor: "#D9D9D9",
+    borderEndWidth: 3,
+    marginHorizontal: 5,
+  },
+  circle: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    position: "absolute",
+    top: -10,
+    left: -5,
+    zIndex: 1
+  },
+  complete: {
+    backgroundColor: "#B1E5D9",
+  },
+  pending: {
+    backgroundColor: "#F3DA90",
+  },
+  startdetails: {
+    flex: 3
+  },
+  datetime: {
+    flexDirection: "row",
+    flex: 2,
+    alignItems: "center",
+    marginTop: -15,
+  },
+  month: {
+    fontWeight: "bold",
+    fontSize: 10,
   },
 });
 
