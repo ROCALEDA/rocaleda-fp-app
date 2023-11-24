@@ -46,8 +46,6 @@ describe("<PositionDetail />", () => {
   });
 
   it("renders the component", async () => {
-    await act(() => global.fetch);
-
     const { queryByText } = render(
       <PositionDetail
         navigation={mockNavigation}
