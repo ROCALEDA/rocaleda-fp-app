@@ -79,7 +79,7 @@ global.fetch = jest.fn((url) =>
       } else if (url.endsWith("/candidates")) {
         return Promise.resolve(mockCandidates);
       } else if (url.endsWith("/tests")) {
-        return Promise.resolve(mockAnotherEndpointData);
+        return Promise.resolve({});
       }
       // Fallback for unexpected URLs
       return Promise.resolve({});
@@ -94,7 +94,6 @@ describe("Performance Component", () => {
     await waitFor(() => {
       expect(screen.getByText("Resultado de prueba técnica")).toBeTruthy();
     });
-    console.log(screen.debug());
   });
 
   it("Fill out form", async () => {
@@ -104,32 +103,26 @@ describe("Performance Component", () => {
       expect(screen.getByText("Resultado de prueba técnica")).toBeTruthy();
     });
 
-    const projectPicker = screen.getByTestId("project-picker");
-
-    fireEvent(projectPicker, "onValueChange", 1);
-
     await waitFor(() => {
+      const projectPicker = screen.getByTestId("project-picker");
+      fireEvent(projectPicker, "onValueChange", 1);
       expect(screen.getByText("Posición")).toBeTruthy();
     });
-    const positionPicker = screen.getByTestId("position-picker");
-
-    fireEvent(positionPicker, "onValueChange", 1);
 
     await waitFor(() => {
+      const positionPicker = screen.getByTestId("position-picker");
+      fireEvent(positionPicker, "onValueChange", 1);
       expect(screen.getByText("Candidato")).toBeTruthy();
     });
-    const candidatePicker = screen.getByTestId("candidate-picker");
-
-    fireEvent(candidatePicker, "onValueChange", 1);
-
-    const descriptionInput = screen.getByPlaceholderText("Observación");
-    fireEvent.changeText(descriptionInput, "New observation");
 
     await waitFor(() => {
+      const candidatePicker = screen.getByTestId("candidate-picker");
+      fireEvent(candidatePicker, "onValueChange", 1);
+      const descriptionInput = screen.getByPlaceholderText("Observación");
+      fireEvent.changeText(descriptionInput, "New observation");
       expect(screen.getByText("Description")).toBeTruthy();
       expect(screen.getByText("Score (0-100)")).toBeTruthy();
+      fireEvent.press(screen.getByText("SUBMIT"));
     });
-
-    fireEvent.press(screen.getByText("SUBMIT"));
   });
 });
