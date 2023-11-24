@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useEffect, useState } from "react";
 import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 
 import NavBar from "../navbar/navbar";
@@ -8,10 +8,9 @@ import API_URL from "../../../api/config";
 import { getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles";
 import AnimatedSkeleton from "../skeletons/skeleton-card";
-
+import InterviewCard from "./interview-card";
 import { TUser } from "../../../types/user";
 import { TInterview } from "../../../types/interview";
-import InterviewCard from "./interview-card";
 
 type InterviewsProps = {
   navigation: StackNavigationProp<ParamListBase>;
@@ -36,8 +35,7 @@ const Interviews = ({ navigation }: InterviewsProps) => {
           });
           if (response.ok) {
             const data = await response.json();
-            console.log("interviews", data);
-            setInterviews(data.data)
+            setInterviews(data.data);
           }
         } else {
           Alert.alert(`Usuario no autenticado`);
@@ -56,7 +54,7 @@ const Interviews = ({ navigation }: InterviewsProps) => {
     <View style={styles.container}>
       <NavBar navigation={navigation} />
       <Text style={globalStyles.text_title}>
-      {user?.role === "2" ? "Entrevistas agendadas" : "Mis entrevistas"}
+        {user?.role === "2" ? "Entrevistas agendadas" : "Mis entrevistas"}
       </Text>
       <View style={styles.list}>
         {isLoading ? (
@@ -69,10 +67,7 @@ const Interviews = ({ navigation }: InterviewsProps) => {
           <FlatList
             data={interviews}
             renderItem={({ item }) => (
-              <InterviewCard
-                interview={item}
-                navigation={navigation}
-              />
+              <InterviewCard navigation={navigation} interview={item} />
             )}
           />
         )}

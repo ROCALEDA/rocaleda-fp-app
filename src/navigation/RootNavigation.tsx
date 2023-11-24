@@ -9,11 +9,29 @@ import Performance from "../components/performance/performance";
 import PositionDetail from "../components/positions/position-detail";
 import TechnicalTest from "../components/technical-test/technical-test";
 import Interviews from "../components/interviews/interviews";
-
+import InterviewDetail from "../components/interviews/interview-detail";
+import { TInterview } from "../../types/interview";
 
 SplashScreen.preventAutoHideAsync();
 
-const Stack = createNativeStackNavigator();
+type RootStackParamList = {
+  Login: undefined;
+  Home: undefined;
+  Positions: undefined;
+  SignUp: undefined;
+  Performance: undefined;
+  TechnicalTest: undefined;
+  Interviews: undefined;
+  PositionDetail: {
+    positionId: string;
+    positionName: string;
+  };
+  InterviewDetail: {
+    interview: TInterview;
+  };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function RootNavigation() {
   return (
@@ -60,7 +78,11 @@ export default function RootNavigation() {
           component={Interviews}
           options={{ headerShown: false }}
         />
-        
+        <Stack.Screen
+          name="InterviewDetail"
+          component={InterviewDetail}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

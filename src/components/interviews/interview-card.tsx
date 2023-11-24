@@ -1,9 +1,10 @@
-import { Text, StyleSheet, Image, View, TouchableOpacity } from "react-native";
-import { TInterview } from "../../../types/interview";
-import Chip from "../chip/Chip";
-import { formatTime, getDay, getMonth } from "../../../utils/date";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+
+import Chip from "../chip/Chip";
+import { TInterview } from "../../../types/interview";
+import { formatTime, getDay, getMonth } from "../../../utils/date";
 
 type InterviewCardProps = {
   navigation: StackNavigationProp<ParamListBase>;
@@ -12,15 +13,14 @@ type InterviewCardProps = {
 
 const InterviewCard = ({ interview, navigation }: InterviewCardProps) => {
   return (
-    /*<TouchableOpacity
+    <TouchableOpacity
       style={styles.card}
       onPress={() =>
         navigation.navigate("InterviewDetail", {
-          interviewData: interview,
+          interview,
         })
       }
-    >*/
-    <View style={styles.card}>
+    >
       <View
         style={[
           styles.circle,
@@ -58,7 +58,7 @@ const InterviewCard = ({ interview, navigation }: InterviewCardProps) => {
           </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -10,
     left: -5,
-    zIndex: 1
+    zIndex: 1,
   },
   complete: {
     backgroundColor: "#B1E5D9",
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F3DA90",
   },
   startdetails: {
-    flex: 3
+    flex: 3,
   },
   datetime: {
     flexDirection: "row",
