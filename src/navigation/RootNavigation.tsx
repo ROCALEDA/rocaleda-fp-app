@@ -23,8 +23,15 @@ type RootStackParamList = {
   TechnicalTest: undefined;
   Interviews: undefined;
   PositionDetail: {
+    candidateId: string;
     positionId: string;
     positionName: string;
+    description: string;
+    isOpen: boolean;
+    projectName: string;
+    projectDescription: string;
+    softSkills: number[];
+    techSkills: number[];
   };
   InterviewDetail: {
     interview: TInterview;
