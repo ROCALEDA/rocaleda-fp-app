@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ParamListBase } from "@react-navigation/native";
+import { ParamListBase, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 
@@ -11,9 +11,16 @@ import AnimatedSkeleton from "../skeletons/skeleton-card";
 import CandidateCard from "../candidates/candidate-card";
 import { TCandidate } from "../../../types/user";
 
+type PositionDetailParamList = {
+  PositionDetail: {
+    positionId: string;
+    positionName: string;
+  };
+};
+
 type PositionsProps = {
   navigation: StackNavigationProp<ParamListBase>;
-  route: any;
+  route: RouteProp<PositionDetailParamList, "PositionDetail">;
 };
 
 const PositionDetail = ({ navigation, route }: PositionsProps) => {
