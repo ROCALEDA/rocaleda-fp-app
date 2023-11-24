@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react-native";
+import { render, waitFor } from "@testing-library/react-native";
 import Interviews from "./interviews";
 
 jest.mock("../../../api/apiService");
@@ -11,8 +11,10 @@ describe("<Interviews />", () => {
     mockNavigation = { navigate: jest.fn() };
   });
 
-  it("renders the component", () => {
+  it("renders the component", async () => {
     const { getByText } = render(<Interviews navigation={mockNavigation} />);
-    expect(getByText("Mis entrevistas")).toBeTruthy();
+    await waitFor(() => {
+      expect(getByText("Mis entrevistas")).toBeTruthy();
+    });
   });
 });

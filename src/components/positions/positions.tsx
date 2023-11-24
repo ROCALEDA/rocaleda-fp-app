@@ -51,7 +51,6 @@ const Positions = ({ navigation }: PositionsProps) => {
               Authorization: `Bearer ${user.token}`,
             },
           });
-          console.log("user", user);
           if (response.ok) {
             const data = await response.json();
             if (user.role == "2") {

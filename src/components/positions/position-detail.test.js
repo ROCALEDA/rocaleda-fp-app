@@ -45,22 +45,28 @@ describe("<PositionDetail />", () => {
     mockNavigation = { navigate: jest.fn() };
   });
 
-  it("renders the component", () => {
+  it("renders the component", async () => {
+    await act(() => global.fetch);
+
     const { queryByText } = render(
       <PositionDetail
         navigation={mockNavigation}
         route={{ params: { positionId: "1", positionName: "Position 1" } }}
       />
     );
-    expect(queryByText("Candidatos de Position 1")).toBeTruthy();
+    await waitFor(() => {
+      expect(queryByText("Candidatos de Position 1")).toBeTruthy();
+    });
   });
 
-  it("shows loading indicators while fetching candidates", () => {
+  it("shows loading indicators while fetching candidates", async () => {
     const { getAllByTestId } = render(
       <PositionDetail navigation={mockNavigation} route={mockRoute} />
     );
 
-    expect(getAllByTestId("animatedSkeleton")).toHaveLength(3); // Assuming 'skeleton-element' is the testID for your skeletons
+    await waitFor(() => {
+      expect(getAllByTestId("animatedSkeleton")).toHaveLength(3); // Assuming 'skeleton-element' is the testID for your skeletons
+    });
   });
 });
 
@@ -85,6 +91,5 @@ describe("Renders the candidates", () => {
     await waitFor(() => {
       expect(getByTestId("candidate-list")).toBeTruthy();
     });
-    console.log(debug());
   });
 });

@@ -72,7 +72,6 @@ describe("Performance Component", () => {
     await waitFor(() => {
       expect(screen.getByText("Evaluación de desempeño")).toBeTruthy();
     });
-    console.log(screen.debug());
   });
 
   it('should display the text "Evaluación de desempeño"', async () => {
@@ -82,7 +81,6 @@ describe("Performance Component", () => {
     await waitFor(() => {
       expect(screen.getByText("Evaluación de desempeño")).toBeTruthy();
     });
-    console.log(screen.debug());
     const projectPicker = screen.getByTestId("project-picker");
 
     fireEvent(projectPicker, "onValueChange", 1);
