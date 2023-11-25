@@ -45,6 +45,13 @@ const PositionCard = ({ position, navigation }: PositionCardProps) => {
         navigation.navigate("PositionDetail", {
           positionId: position.open_position.id,
           positionName: position.open_position.position_name,
+          description: position.open_position.position_name,
+          isOpen: position.open_position.is_open,
+          projectName: position.project.name,
+          projectDescription: position.project.description,
+          softSkills: position.soft_skill_ids,
+          techSkills: position.technology_ids,
+          candidateId: position.open_position.candidate_id,
         })
       }
     >

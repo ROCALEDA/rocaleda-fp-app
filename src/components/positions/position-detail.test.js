@@ -49,11 +49,23 @@ describe("<PositionDetail />", () => {
     const { queryByText } = render(
       <PositionDetail
         navigation={mockNavigation}
-        route={{ params: { positionId: "1", positionName: "Position 1" } }}
+        route={{
+          params: {
+            positionId: "1",
+            positionName: "positionName",
+            description: "Data Scientist",
+            isOpen: true,
+            projectName: "projectName",
+            projectDescription: "project description",
+            softSkills: [1, 2],
+            techSkills: [1, 2],
+            candidateId: "1",
+          },
+        }}
       />
     );
     await waitFor(() => {
-      expect(queryByText("Candidatos de Position 1")).toBeTruthy();
+      expect(queryByText("projectName")).toBeTruthy();
     });
   });
 
