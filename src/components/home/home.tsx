@@ -118,7 +118,7 @@ const Home = ({ navigation }: HomeProps) => {
           )}
           {["2"].includes(roleId) && (
             <TouchableOpacity
-              onPress={() => navigation.navigate("TechnicalTest")}
+              onPress={() => navigation.navigate("TechnicalTests")}
               aria-label="Prueba técnica"
             >
               <View style={styles.card}>

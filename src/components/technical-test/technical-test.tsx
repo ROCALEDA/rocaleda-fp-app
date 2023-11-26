@@ -35,6 +35,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
   const [currentProject, setCurrentProject] = useState<TProject | null>(null);
   const [positionId, setPositionId] = useState<number | null>(null);
 
+  const [title, setTitle] = useState("");
   const [candidateId, setCandidateId] = useState<number | null>(null);
   const [description, setDescription] = useState("");
   const [score, setScore] = useState(0);
@@ -90,7 +91,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
           console.log("RESPONSE DATA", data);
           if (data) {
             Alert.alert(`Prueba técnica guardada`);
-            navigation.navigate("Home");
+            navigation.navigate("TechnicalTests");
           }
         }
       } else {
@@ -108,7 +109,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
       if (candidateId && positionId) {
         sendTechnicalTest(positionId, {
           candidate_id: candidateId,
-          name: "Technical Test",
+          name: title,
           score: score,
           observations: description,
         });
@@ -189,6 +190,18 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
       <NavBar navigation={navigation} />
       <Text style={globalStyles.text_title}>Resultado de prueba técnica</Text>
       <View style={styles.form}>
+        <View>
+          <Text style={globalStyles.text_label}>Title</Text>
+          <TextInput
+            onChangeText={(text) => setTitle(text)}
+            value={title}
+            style={styles.bordered}
+            placeholder="Título de prueba técnica"
+          />
+        </View>
+        {!title && (
+          <Text style={globalStyles.text_error}>El título es requerido</Text>
+        )}
         <View>
           <Text style={globalStyles.text_label}>Proyecto</Text>
           {isLoadingProjects ? (
