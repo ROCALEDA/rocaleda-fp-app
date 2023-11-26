@@ -1,10 +1,9 @@
 import { render, waitFor } from "@testing-library/react-native";
-import TechnicalTests from "./technical-tests";
+import PerformanceReviewList from "./performance-review-list";
 import { useFocusEffect } from "@react-navigation/native";
 
 jest.mock("../../../api/apiService");
 jest.mock("../../../utils/storage");
-
 jest.mock("@react-navigation/native", () => {
   return {
     ...jest.requireActual("@react-navigation/native"),
@@ -12,7 +11,7 @@ jest.mock("@react-navigation/native", () => {
   };
 });
 
-describe("<Positions />", () => {
+describe("Render component", () => {
   let mockNavigation;
 
   beforeEach(() => {
@@ -22,10 +21,10 @@ describe("<Positions />", () => {
 
   it("renders the component", async () => {
     const { getByText } = render(
-      <TechnicalTests navigation={mockNavigation} />
+      <PerformanceReviewList navigation={mockNavigation} />
     );
     await waitFor(() => {
-      expect(getByText("Pruebas técnicas")).toBeTruthy();
+      expect(getByText("Evaluaciones de desempeño")).toBeTruthy();
     });
   });
 });

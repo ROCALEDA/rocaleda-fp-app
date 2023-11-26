@@ -133,7 +133,9 @@ describe("Test navigation", () => {
 
     await waitFor(() => {
       fireEvent.press(getByText("Pruebas de desempeño"));
-      expect(mockNavigation.navigate).toHaveBeenCalledWith("Performance"); // Ensure this matches the component's navigate parameter
+      expect(mockNavigation.navigate).toHaveBeenCalledWith(
+        "PerformanceReviewList"
+      );
     });
   });
 

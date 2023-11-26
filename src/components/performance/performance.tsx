@@ -37,6 +37,7 @@ const Performance = ({ navigation }: PositionsProps) => {
   const [description, setDescription] = useState("");
   const [score, setScore] = useState(0);
   const [user, setUser] = useState<TUser>();
+  const [title, setTitle] = useState("");
 
   const [isLoading, setLoading] = useState(false);
   const [isLoadingProjects, setLoadingProjects] = useState(true);
@@ -46,16 +47,20 @@ const Performance = ({ navigation }: PositionsProps) => {
   const [profiles, setProfiles] = useState<TProfile[] | null>(null);
 
   const validateForm = () => {
+    if (!title) {
+      alert("Ingresa un título a la evaluación");
+      return false;
+    }
     if (!projectId) {
-      alert("Please select a project");
+      alert("Selecciona un proyecto");
       return false;
     }
     if (!candidateId) {
-      alert("Please select a candidate");
+      alert("Selecciona un colaborador");
       return false;
     }
     if (!description) {
-      alert("Observations cannot be empty");
+      alert("Ingresa la observación o descripción");
       return false;
     }
     return true;
@@ -64,7 +69,6 @@ const Performance = ({ navigation }: PositionsProps) => {
   const sendPerformanceReview = async (
     performance: TPerformanceReviewPayload
   ) => {
-    console.log("sendPerformanceReview", sendPerformanceReview);
     try {
       setLoading(true);
       if (user?.token) {
@@ -78,10 +82,9 @@ const Performance = ({ navigation }: PositionsProps) => {
         });
         if (response.ok) {
           const data = await response.json();
-          console.log("RESPONSE DATA", data);
           if (data) {
             Alert.alert(`Evaluación de desempeño guardada`);
-            navigation.navigate("Home");
+            navigation.navigate("PerformanceReviewList");
           }
         }
       } else {
@@ -99,7 +102,7 @@ const Performance = ({ navigation }: PositionsProps) => {
       if (projectId && candidateId) {
         sendPerformanceReview({
           project_id: projectId,
-          name: "Performance review",
+          name: title,
           candidate_id: candidateId,
           score: score,
           observations: description,
@@ -177,8 +180,20 @@ const Performance = ({ navigation }: PositionsProps) => {
       contentContainerStyle={styles.contentContainer}
     >
       <NavBar navigation={navigation} />
-      <Text style={globalStyles.text_title}>Evaluación de desempeño</Text>
+      <Text style={globalStyles.text_title}>Crear evaluación de desempeño</Text>
       <View style={styles.form}>
+        <View>
+          <Text style={globalStyles.text_label}>Título</Text>
+          <TextInput
+            onChangeText={(text) => setTitle(text)}
+            value={title}
+            style={styles.bordered}
+            placeholder="Nombre"
+          />
+          {!title && (
+            <Text style={globalStyles.text_error}>El título es requerido</Text>
+          )}
+        </View>
         <View>
           <Text style={globalStyles.text_label}>Proyecto</Text>
           {isLoadingProjects ? (
@@ -208,13 +223,14 @@ const Performance = ({ navigation }: PositionsProps) => {
         </View>
         {profiles?.length == 0 && (
           <Text style={globalStyles.text_label}>
-            No hay empleados o posiciones activas en el proyecto seleccionado
+            No hay colaboradores o posiciones activas en el proyecto
+            seleccionado
           </Text>
         )}
         {projectId && (isLoadingProjects || profiles != null) && (
           <>
             <View>
-              <Text style={globalStyles.text_label}>Empleado</Text>
+              <Text style={globalStyles.text_label}>Colaborador</Text>
               {isLoadingProjects || isLoadingProfile ? (
                 <RectangleSkeleton />
               ) : (
@@ -225,7 +241,7 @@ const Performance = ({ navigation }: PositionsProps) => {
                       onValueChange={(itemValue) => setCandidateId(itemValue)}
                     >
                       <Picker.Item
-                        label="Selecciona un empleado"
+                        label="Selecciona un colaborador"
                         value={null}
                         key={null}
                       />
@@ -240,7 +256,7 @@ const Performance = ({ navigation }: PositionsProps) => {
                   </View>
                   {!candidateId && (
                     <Text style={globalStyles.text_error}>
-                      Selecciona un empleado
+                      Selecciona un colaborador
                     </Text>
                   )}
                 </>
@@ -293,7 +309,7 @@ const Performance = ({ navigation }: PositionsProps) => {
                 {isLoading ? (
                   <ActivityIndicator />
                 ) : (
-                  renderPrimaryButtonText("SUBMIT")
+                  renderPrimaryButtonText("GUARDAR")
                 )}
               </Pressable>
             </View>

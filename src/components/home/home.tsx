@@ -96,8 +96,8 @@ const Home = ({ navigation }: HomeProps) => {
           )}
           {["2"].includes(roleId) && (
             <TouchableOpacity
-              onPress={() => navigation.navigate("Performance")}
-              aria-label="Posiciones"
+              onPress={() => navigation.navigate("PerformanceReviewList")}
+              aria-label="Performance reviews"
             >
               <View style={styles.card}>
                 <View style={styles.card_description}>
@@ -105,7 +105,7 @@ const Home = ({ navigation }: HomeProps) => {
                     Pruebas de desempeño
                   </Text>
                   <Text style={globalStyles.text_description}>
-                    Evalua el progreso de tus empleados
+                    Evalua el progreso de tus colaboradores
                   </Text>
                 </View>
                 <View style={styles.action}>
