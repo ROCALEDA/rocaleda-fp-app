@@ -36,7 +36,7 @@ describe("Home with Role", () => {
     const { findByText } = render(
       <Home navigation={{ navigate: jest.fn() }} />
     );
-    const interviewsButton = await findByText("POSICIONES");
+    const interviewsButton = await findByText("Posiciones");
 
     expect(interviewsButton).toBeTruthy();
   });
@@ -50,7 +50,7 @@ describe("Home with Role", () => {
     const { findByText } = render(
       <Home navigation={{ navigate: jest.fn() }} />
     );
-    const interviewsButton = await findByText("ENTREVISTAS");
+    const interviewsButton = await findByText("Entrevistas");
 
     expect(interviewsButton).toBeTruthy();
   });
@@ -64,9 +64,9 @@ describe("Home with Role", () => {
     const { findByText } = render(
       <Home navigation={{ navigate: jest.fn() }} />
     );
-    const interviewsButton = await findByText("POSICIONES");
-    const performanceButton = await findByText("EVALUAR DESEMPEÑO");
-    const technicalTestButton = await findByText("REGISTRAR PRUEBA TÉCNICA");
+    const interviewsButton = await findByText("Posiciones");
+    const performanceButton = await findByText("Pruebas de desempeño");
+    const technicalTestButton = await findByText("Pruebas técnicas");
 
     expect(interviewsButton).toBeTruthy();
     expect(performanceButton).toBeTruthy();
@@ -90,7 +90,7 @@ describe("Test navigation", () => {
     const { getByText } = render(<Home navigation={mockNavigation} />);
 
     await waitFor(() => {
-      fireEvent.press(getByText("POSICIONES"));
+      fireEvent.press(getByText("Posiciones"));
       expect(mockNavigation.navigate).toHaveBeenCalledWith("Positions"); // Ensure this matches the component's navigate parameter
     });
   });
@@ -104,7 +104,7 @@ describe("Test navigation", () => {
     const { getByText } = render(<Home navigation={mockNavigation} />);
 
     await waitFor(() => {
-      fireEvent.press(getByText("ENTREVISTAS"));
+      fireEvent.press(getByText("Entrevistas"));
       expect(mockNavigation.navigate).toHaveBeenCalledWith("Interviews");
     });
   });
@@ -118,7 +118,7 @@ describe("Test navigation", () => {
     const { getByText } = render(<Home navigation={mockNavigation} />);
 
     await waitFor(() => {
-      fireEvent.press(getByText("POSICIONES"));
+      fireEvent.press(getByText("Posiciones"));
       expect(mockNavigation.navigate).toHaveBeenCalledWith("Positions"); // Ensure this matches the component's navigate parameter
     });
   });
@@ -132,7 +132,7 @@ describe("Test navigation", () => {
     const { getByText } = render(<Home navigation={mockNavigation} />);
 
     await waitFor(() => {
-      fireEvent.press(getByText("EVALUAR DESEMPEÑO"));
+      fireEvent.press(getByText("Pruebas de desempeño"));
       expect(mockNavigation.navigate).toHaveBeenCalledWith("Performance"); // Ensure this matches the component's navigate parameter
     });
   });
@@ -146,7 +146,7 @@ describe("Test navigation", () => {
     const { getByText } = render(<Home navigation={mockNavigation} />);
 
     await waitFor(() => {
-      fireEvent.press(getByText("REGISTRAR PRUEBA TÉCNICA"));
+      fireEvent.press(getByText("Pruebas técnicas"));
       expect(mockNavigation.navigate).toHaveBeenCalledWith("TechnicalTest"); // Ensure this matches the component's navigate parameter
     });
   });
