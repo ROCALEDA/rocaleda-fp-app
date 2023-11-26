@@ -147,7 +147,7 @@ describe("Test navigation", () => {
 
     await waitFor(() => {
       fireEvent.press(getByText("Pruebas técnicas"));
-      expect(mockNavigation.navigate).toHaveBeenCalledWith("TechnicalTest"); // Ensure this matches the component's navigate parameter
+      expect(mockNavigation.navigate).toHaveBeenCalledWith("TechnicalTests"); // Ensure this matches the component's navigate parameter
     });
   });
 });
