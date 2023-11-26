@@ -1,3 +1,15 @@
+export type TSimpleProject = {
+  id: number;
+  name: string;
+  is_team_complete: boolean;
+  total_positions: number;
+  positions: {
+    id: number;
+    is_open: boolean;
+    name: string;
+  };
+};
+
 export type TProject = {
   id: number;
   name: string;

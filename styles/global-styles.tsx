@@ -1,6 +1,16 @@
 import { StyleSheet } from "react-native";
 
 const globalStyles = StyleSheet.create({
+  text_subtitle: {
+    fontSize: 22,
+    fontFamily: "Philosopher-Regular",
+    color: "#2D3748",
+  },
+  text_description: {
+    fontSize: 13,
+    fontFamily: "Outfit-Regular",
+    color: "#2D3748",
+  },
   text_title: {
     fontSize: 30,
     textAlign: "center",
