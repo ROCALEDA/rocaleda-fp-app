@@ -12,3 +12,12 @@ export type TTechnicalTestPayload = {
   score: number;
   observations: string;
 };
+
+export type TPerformanceReview = {
+  candidate_id: number;
+  name: string;
+  observations: string;
+  project_id: number;
+  scheduled: string;
+  score: number;
+};

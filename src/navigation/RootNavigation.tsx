@@ -11,6 +11,7 @@ import TechnicalTest from "../components/technical-test/technical-test";
 import Interviews from "../components/interviews/interviews";
 import InterviewDetail from "../components/interviews/interview-detail";
 import { TInterview } from "../../types/interview";
+import TechnicalTests from "../components/technical-test/technical-tests";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,6 +23,7 @@ type RootStackParamList = {
   Performance: undefined;
   TechnicalTest: undefined;
   Interviews: undefined;
+  TechnicalTests: undefined;
   PositionDetail: {
     candidateId: string;
     positionId: string;
@@ -75,11 +77,15 @@ export default function RootNavigation() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="TechnicalTests"
+          component={TechnicalTests}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="TechnicalTest"
           component={TechnicalTest}
           options={{ headerShown: false }}
         />
-
         <Stack.Screen
           name="Interviews"
           component={Interviews}

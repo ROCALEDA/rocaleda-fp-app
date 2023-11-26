@@ -9,7 +9,7 @@ import { getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles";
 import AnimatedSkeleton from "../skeletons/skeleton-card";
 import CandidateCard from "../candidates/candidate-card";
-import { TCandidate, TUser } from "../../../types/user";
+import { TCandidate } from "../../../types/user";
 import Chip from "../chip/Chip";
 
 type PositionDetailParamList = {
@@ -38,12 +38,9 @@ const PositionDetail = ({ navigation, route }: PositionsProps) => {
   const {
     positionId,
     positionName,
-    description,
     isOpen,
     projectName,
     projectDescription,
-    softSkills,
-    techSkills,
     candidateId,
   } = route.params;
   const [selectedCandidateId, setSelectedCandidateId] = useState(candidateId);
@@ -173,6 +170,11 @@ const styles = StyleSheet.create({
     gap: 10,
     flex: 1,
   },
+  content: {
+    backgroundColor: "yellow",
+    paddingHorizontal: 30,
+    gap: 40,
+  },
   status_row: {
     alignItems: "center",
     gap: 10,
@@ -181,11 +183,7 @@ const styles = StyleSheet.create({
   status: {
     width: "auto",
   },
-  content: {
-    paddingHorizontal: 30,
-    gap: 40,
-    flex: 1,
-  },
+
   section: {
     flexDirection: "column",
     gap: 5,
