@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { ParamListBase, RouteProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
+import {
+  Text,
+  Alert,
+  StyleSheet,
+  FlatList,
+  View,
+  ScrollView,
+} from "react-native";
 
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
