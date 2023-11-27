@@ -133,37 +133,37 @@ const PositionDetail = ({ navigation, route }: PositionsProps) => {
         </View>
         <View style={styles.section}>
           <Text style={globalStyles.subtitle}>Candidatos</Text>
-          <View style={styles.list}>
-            {isLoading ? (
-              <>
-                <AnimatedSkeleton />
-                <AnimatedSkeleton />
-                <AnimatedSkeleton />
-              </>
-            ) : (
-              <>
-                {candidates?.length == 0 ? (
-                  <Text style={globalStyles.text_label}>
-                    No hay candidatos en esta posición
-                  </Text>
-                ) : (
-                  <FlatList
-                    testID="candidate-list"
-                    data={candidates}
-                    keyExtractor={(item) => item.user_id.toString()}
-                    renderItem={({ item }) => (
-                      <CandidateCard
-                        selectedCandidateId={selectedCandidateId}
-                        user={item}
-                        selectCandidate={selectCandidate}
-                        isClosed={isClosed}
-                      />
-                    )}
-                  />
-                )}
-              </>
-            )}
-          </View>
+        </View>
+        <View style={styles.list}>
+          {isLoading ? (
+            <>
+              <AnimatedSkeleton />
+              <AnimatedSkeleton />
+              <AnimatedSkeleton />
+            </>
+          ) : (
+            <>
+              {candidates?.length == 0 ? (
+                <Text style={globalStyles.text_label}>
+                  No hay candidatos en esta posición
+                </Text>
+              ) : (
+                <FlatList
+                  testID="candidate-list"
+                  data={candidates}
+                  keyExtractor={(item) => item.user_id.toString()}
+                  renderItem={({ item }) => (
+                    <CandidateCard
+                      selectedCandidateId={selectedCandidateId}
+                      user={item}
+                      selectCandidate={selectCandidate}
+                      isClosed={isClosed}
+                    />
+                  )}
+                />
+              )}
+            </>
+          )}
         </View>
       </View>
     </View>
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   content: {
+    flex: 1,
     paddingHorizontal: 30,
     gap: 40,
   },
@@ -196,6 +197,8 @@ const styles = StyleSheet.create({
   },
 
   list: {
+    flex: 1,
+    flexGrow: 1,
     alignContent: "flex-start",
   },
 });
