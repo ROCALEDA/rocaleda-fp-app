@@ -1,6 +1,16 @@
 import { StyleSheet } from "react-native";
 
 const globalStyles = StyleSheet.create({
+  text_subtitle: {
+    fontSize: 22,
+    fontFamily: "Philosopher-Regular",
+    color: "#2D3748",
+  },
+  text_description: {
+    fontSize: 13,
+    fontFamily: "Outfit-Regular",
+    color: "#2D3748",
+  },
   text_title: {
     fontSize: 30,
     textAlign: "center",
@@ -18,18 +28,28 @@ const globalStyles = StyleSheet.create({
     fontFamily: "Philosopher-Regular",
     color: "#2D3748",
   },
+  subtitle: {
+    fontSize: 18,
+    fontFamily: "Outfit-SemiBold",
+    color: "#2D3748",
+  },
   text_label: {
-    fontSize: 15,
+    fontSize: 14,
     fontFamily: "Outfit-Regular",
     color: "#2D3748",
   },
+  text_error: {
+    fontSize: 10,
+    fontFamily: "Outfit-Regular",
+    color: "#ED8B84",
+  },
   button_primary: {
-    backgroundColor: "#A15CAC", // Set the background color
+    backgroundColor: "#A15CAC",
     padding: 10,
     borderRadius: 5,
   },
   button_primary_text: {
-    color: "white", // Set the text color
+    color: "white",
     fontSize: 16,
     textTransform: "uppercase",
     textAlign: "center",
@@ -43,6 +63,25 @@ const globalStyles = StyleSheet.create({
     fontSize: 16,
     textTransform: "uppercase",
     textAlign: "center",
+    color: "#A15CAC",
+  },
+  small_button_outline: {
+    padding: 6,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#A15CAC",
+  },
+  small_button_outline_text: {
+    fontSize: 12,
+    textTransform: "uppercase",
+    textAlign: "center",
+    color: "#A15CAC",
+  },
+  button_outlined: {
+    borderColor: "#A15CAC",
+    borderWidth: 2,
+    padding: 10,
+    borderRadius: 5,
   },
 });
 

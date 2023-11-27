@@ -1,10 +1,10 @@
 import { render, waitFor } from "@testing-library/react-native";
-import Positions from "./positions";
+import Interviews from "./interviews";
 
 jest.mock("../../../api/apiService");
 jest.mock("../../../utils/storage");
 
-describe("<Positions />", () => {
+describe("<Interviews />", () => {
   let mockNavigation;
 
   beforeEach(() => {
@@ -12,9 +12,9 @@ describe("<Positions />", () => {
   });
 
   it("renders the component", async () => {
-    const { getByText } = render(<Positions navigation={mockNavigation} />);
+    const { getByText } = render(<Interviews navigation={mockNavigation} />);
     await waitFor(() => {
-      expect(getByText("Posiciones")).toBeTruthy();
+      expect(getByText("Mis entrevistas")).toBeTruthy();
     });
   });
 });

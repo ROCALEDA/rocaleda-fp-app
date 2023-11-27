@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useEffect, useState } from "react";
 import { Text, Alert, StyleSheet, FlatList, View } from "react-native";
 
 import NavBar from "../navbar/navbar";
@@ -8,34 +8,16 @@ import API_URL from "../../../api/config";
 import { getUser } from "../../../utils/storage";
 import globalStyles from "../../../styles/global-styles";
 import AnimatedSkeleton from "../skeletons/skeleton-card";
-import PositionCard from "./position-card";
+import InterviewCard from "./interview-card";
 import { TUser } from "../../../types/user";
+import { TInterview } from "../../../types/interview";
 
-type TPosition = {
-  open_position: {
-    candidate_id: number | null;
-    id: number;
-    is_open: boolean;
-    position_name: string;
-    project_id: number;
-  };
-  project: {
-    customer_id: number;
-    description: string;
-    id: number;
-    is_team_complete: boolean;
-    name: string;
-  };
-  soft_skill_ids: number[];
-  technology_ids: number[];
-};
-
-type PositionsProps = {
+type InterviewsProps = {
   navigation: StackNavigationProp<ParamListBase>;
 };
 
-const Positions = ({ navigation }: PositionsProps) => {
-  const [positions, setPositions] = useState<TPosition[]>();
+const Interviews = ({ navigation }: InterviewsProps) => {
+  const [interviews, setInterviews] = useState<TInterview[]>();
   const [isLoading, setLoading] = useState(true);
   const [user, setUser] = useState<TUser>();
 
@@ -45,7 +27,7 @@ const Positions = ({ navigation }: PositionsProps) => {
         const user = await getUser();
         setUser(user);
         if (user?.token) {
-          const response = await fetch(`${API_URL}/positions`, {
+          const response = await fetch(`${API_URL}/interviews`, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${user.token}`,
@@ -53,15 +35,7 @@ const Positions = ({ navigation }: PositionsProps) => {
           });
           if (response.ok) {
             const data = await response.json();
-            if (user.role == "2") {
-              const filteredPositions = data.filter(
-                (position: TPosition) =>
-                  position.project.customer_id === Number(user.id)
-              );
-              setPositions(filteredPositions);
-            } else {
-              setPositions(data);
-            }
+            setInterviews(data.data);
           }
         } else {
           Alert.alert(`Usuario no autenticado`);
@@ -80,7 +54,7 @@ const Positions = ({ navigation }: PositionsProps) => {
     <View style={styles.container}>
       <NavBar navigation={navigation} />
       <Text style={globalStyles.text_title}>
-        {user?.role === "2" ? "Mis posiciones" : "Posiciones"}
+        {user?.role === "2" ? "Entrevistas agendadas" : "Mis entrevistas"}
       </Text>
       <View style={styles.list}>
         {isLoading ? (
@@ -91,16 +65,9 @@ const Positions = ({ navigation }: PositionsProps) => {
           </>
         ) : (
           <FlatList
-            data={positions}
-            keyExtractor={(position) =>
-              `po${position.open_position.id.toString()}-pr${position.project.id.toString()}`
-            }
+            data={interviews}
             renderItem={({ item }) => (
-              <PositionCard
-                position={item}
-                key={`po${item.open_position.id.toString()}-pr${item.project.id.toString()}`}
-                navigation={navigation}
-              />
+              <InterviewCard navigation={navigation} interview={item} />
             )}
           />
         )}
@@ -127,4 +94,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Positions;
+export default Interviews;
