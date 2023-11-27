@@ -237,6 +237,7 @@ const Performance = ({ navigation }: PositionsProps) => {
                 <>
                   <View style={styles.bordered}>
                     <Picker
+                      testID="candidate-picker"
                       selectedValue={candidateId}
                       onValueChange={(itemValue) => setCandidateId(itemValue)}
                     >

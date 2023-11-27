@@ -89,4 +89,22 @@ describe("Performance Component", () => {
       expect(screen.getByText("Selecciona un colaborador")).toBeTruthy(); // Example assertion
     });
   });
+
+  it('should display the text "Crear evaluación de desempeño"', async () => {
+    const screen = render(<Performance navigation={mockNavigation} />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Crear evaluación de desempeño")).toBeTruthy();
+    });
+    const projectPicker = screen.getByTestId("project-picker");
+
+    fireEvent(projectPicker, "onValueChange", 1);
+
+    await waitFor(() => {
+      expect(screen.getByText("Selecciona un colaborador")).toBeTruthy(); // Example assertion
+    });
+    const candidatePicker = screen.getByTestId("candidate-picker");
+
+    fireEvent(candidatePicker, "onValueChange", 1);
+  });
 });

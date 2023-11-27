@@ -77,7 +77,7 @@ const PerformanceReviewList = ({ navigation }: PerformanceReviewProps) => {
             <TouchableOpacity
               style={styles.add}
               onPress={() => navigation.navigate("Performance")}
-              testID="create-performance-review-button"
+              testID="create-performance-review"
             >
               <Image source={require("../../../assets/add.png")} />
               <Text style={globalStyles.text_label}>Añadir</Text>

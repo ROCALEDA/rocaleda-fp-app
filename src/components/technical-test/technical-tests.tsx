@@ -75,7 +75,7 @@ const TechnicalTests = ({ navigation }: TechnicalTestsProps) => {
             <TouchableOpacity
               style={styles.add}
               onPress={() => navigation.navigate("TechnicalTest")}
-              testID="logout-button"
+              testID="add-technical-test"
             >
               <Image source={require("../../../assets/add.png")} />
               <Text style={globalStyles.text_label}>Añadir</Text>
@@ -89,6 +89,7 @@ const TechnicalTests = ({ navigation }: TechnicalTestsProps) => {
             </>
           ) : (
             <FlatList
+              testID="technical-test-list"
               data={tests}
               keyExtractor={(test) =>
                 `ca${test.candidate_id}-po${test.open_position_id}-po${test.scheduled}`

@@ -1,4 +1,4 @@
-import { render, waitFor } from "@testing-library/react-native";
+import { render, waitFor, fireEvent } from "@testing-library/react-native";
 import PerformanceReviewList from "./performance-review-list";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -26,5 +26,16 @@ describe("Render component", () => {
     await waitFor(() => {
       expect(getByText("Evaluaciones de desempeño")).toBeTruthy();
     });
+  });
+
+  it("navigates to the Performance creation screen when the add button is pressed", () => {
+    const { getByTestId } = render(
+      <PerformanceReviewList navigation={mockNavigation} />
+    );
+
+    const addButton = getByTestId("create-performance-review");
+    fireEvent.press(addButton);
+
+    expect(mockNavigation.navigate).toHaveBeenCalledWith("Performance");
   });
 });
