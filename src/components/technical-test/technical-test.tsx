@@ -49,20 +49,24 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
   const [candidates, setCandidates] = useState<TCandidate[] | null>(null);
 
   const validateForm = () => {
+    if (!title) {
+      Alert.alert("Ingresa un título a la evaluación");
+      return false;
+    }
     if (!currentProject?.id) {
-      alert("Please select a project");
+      Alert.alert("Selecciona un proyecto");
       return false;
     }
     if (!positionId) {
-      alert("Please select a position");
+      Alert.alert("Selecciona una posición");
       return false;
     }
     if (!candidateId) {
-      alert("Please select a candidate");
+      Alert.alert("Selecciona un candidato");
       return false;
     }
     if (!description) {
-      alert("Observations cannot be empty");
+      Alert.alert("Ingresa la observación o descripción");
       return false;
     }
     return true;
@@ -88,7 +92,6 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
         );
         if (response.ok) {
           const data = await response.json();
-          console.log("RESPONSE DATA", data);
           if (data) {
             Alert.alert(`Prueba técnica guardada`);
             navigation.navigate("TechnicalTests");
@@ -191,17 +194,17 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
       <Text style={globalStyles.text_title}>Resultado de prueba técnica</Text>
       <View style={styles.form}>
         <View>
-          <Text style={globalStyles.text_label}>Title</Text>
+          <Text style={globalStyles.text_label}>Título</Text>
           <TextInput
             onChangeText={(text) => setTitle(text)}
             value={title}
             style={styles.bordered}
             placeholder="Nombre"
           />
+          {!title && (
+            <Text style={globalStyles.text_error}>El título es requerido</Text>
+          )}
         </View>
-        {!title && (
-          <Text style={globalStyles.text_error}>El título es requerido</Text>
-        )}
         <View>
           <Text style={globalStyles.text_label}>Proyecto</Text>
           {isLoadingProjects ? (
@@ -363,7 +366,7 @@ const TechnicalTest = ({ navigation }: PositionsProps) => {
                     {isLoading ? (
                       <ActivityIndicator />
                     ) : (
-                      renderPrimaryButtonText("SUBMIT")
+                      renderPrimaryButtonText("GUARDAR")
                     )}
                   </Pressable>
                 </View>

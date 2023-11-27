@@ -66,27 +66,45 @@ describe("Performance Component", () => {
     mockNavigation = { navigate: jest.fn() };
   });
 
-  it('should display the text "Evaluación de desempeño"', async () => {
+  it('should display the text "Crear evaluación de desempeño"', async () => {
     const screen = render(<Performance navigation={mockNavigation} />);
 
     await waitFor(() => {
-      expect(screen.getByText("Evaluación de desempeño")).toBeTruthy();
+      expect(screen.getByText("Crear evaluación de desempeño")).toBeTruthy();
     });
   });
 
-  it('should display the text "Evaluación de desempeño"', async () => {
+  it('should display the text "Crear evaluación de desempeño"', async () => {
     const screen = render(<Performance navigation={mockNavigation} />);
 
     // Use waitFor to ensure all state updates and effects are processed
     await waitFor(() => {
-      expect(screen.getByText("Evaluación de desempeño")).toBeTruthy();
+      expect(screen.getByText("Crear evaluación de desempeño")).toBeTruthy();
     });
     const projectPicker = screen.getByTestId("project-picker");
 
     fireEvent(projectPicker, "onValueChange", 1);
 
     await waitFor(() => {
-      expect(screen.getByText("Selecciona un empleado")).toBeTruthy(); // Example assertion
+      expect(screen.getByText("Selecciona un colaborador")).toBeTruthy(); // Example assertion
     });
+  });
+
+  it('should display the text "Crear evaluación de desempeño"', async () => {
+    const screen = render(<Performance navigation={mockNavigation} />);
+
+    await waitFor(() => {
+      expect(screen.getByText("Crear evaluación de desempeño")).toBeTruthy();
+    });
+    const projectPicker = screen.getByTestId("project-picker");
+
+    fireEvent(projectPicker, "onValueChange", 1);
+
+    await waitFor(() => {
+      expect(screen.getByText("Selecciona un colaborador")).toBeTruthy(); // Example assertion
+    });
+    const candidatePicker = screen.getByTestId("candidate-picker");
+
+    fireEvent(candidatePicker, "onValueChange", 1);
   });
 });

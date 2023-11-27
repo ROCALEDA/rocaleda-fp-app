@@ -122,7 +122,7 @@ describe("Performance Component", () => {
       fireEvent.changeText(descriptionInput, "New observation");
       expect(screen.getByText("Description")).toBeTruthy();
       expect(screen.getByText("Score (0-100)")).toBeTruthy();
-      fireEvent.press(screen.getByText("SUBMIT"));
+      fireEvent.press(screen.getByText("GUARDAR"));
     });
   });
 });

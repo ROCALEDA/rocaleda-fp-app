@@ -1,4 +1,4 @@
-export const mockEvaluations = [
+export const mockReviews = [
   {
     candidate_id: 51,
     name: "Performance review",

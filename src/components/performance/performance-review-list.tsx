@@ -10,40 +10,43 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import React from "react";
 
 import NavBar from "../navbar/navbar";
 import API_URL from "../../../api/config";
 import { TUser } from "../../../types/user";
 import { getUser } from "../../../utils/storage";
-import TechnicalTestCard from "./technical-test-card";
 import globalStyles from "../../../styles/global-styles";
 import AnimatedSkeleton from "../skeletons/skeleton-card";
 import { TTechnicalTest } from "../../../types/interview";
-import React from "react";
+import TechnicalTestCard from "../technical-test/technical-test-card";
 
-type TechnicalTestsProps = {
+type PerformanceReviewProps = {
   navigation: StackNavigationProp<ParamListBase>;
 };
 
-const TechnicalTests = ({ navigation }: TechnicalTestsProps) => {
-  const [tests, setTests] = useState<TTechnicalTest[]>();
+const PerformanceReviewList = ({ navigation }: PerformanceReviewProps) => {
+  const [reviews, setReviews] = useState<TTechnicalTest[]>();
   const [isLoading, setLoading] = useState(true);
   const [user, setUser] = useState<TUser>();
 
-  const getTechnicalTests = async () => {
+  const getPerformanceReviews = async () => {
     try {
       const user = await getUser();
       setUser(user);
       if (user?.token) {
-        const response = await fetch(`${API_URL}/customer/technical_tests`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user.token}`,
-          },
-        });
+        const response = await fetch(
+          `${API_URL}/customer/performance_evaluations`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        );
         if (response.ok) {
           const data = await response.json();
-          setTests(data);
+          setReviews(data);
         }
       } else {
         Alert.alert(`Usuario no autenticado`);
@@ -56,26 +59,25 @@ const TechnicalTests = ({ navigation }: TechnicalTestsProps) => {
   };
 
   useEffect(() => {
-    getTechnicalTests();
+    getPerformanceReviews();
   }, []);
 
   useFocusEffect(
     React.useCallback(() => {
-      getTechnicalTests();
+      getPerformanceReviews();
     }, [])
   );
   return (
     <View style={styles.container}>
       <NavBar navigation={navigation} />
       <View style={styles.content}>
-        <Text style={globalStyles.text_title}>Pruebas técnicas</Text>
-
+        <Text style={globalStyles.text_title}>Evaluaciones de desempeño</Text>
         <View style={styles.list}>
           <View style={styles.action}>
             <TouchableOpacity
               style={styles.add}
-              onPress={() => navigation.navigate("TechnicalTest")}
-              testID="add-technical-test"
+              onPress={() => navigation.navigate("Performance")}
+              testID="create-performance-review"
             >
               <Image source={require("../../../assets/add.png")} />
               <Text style={globalStyles.text_label}>Añadir</Text>
@@ -89,8 +91,7 @@ const TechnicalTests = ({ navigation }: TechnicalTestsProps) => {
             </>
           ) : (
             <FlatList
-              testID="technical-test-list"
-              data={tests}
+              data={reviews}
               keyExtractor={(test) =>
                 `ca${test.candidate_id}-po${test.open_position_id}-po${test.scheduled}`
               }
@@ -137,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TechnicalTests;
+export default PerformanceReviewList;

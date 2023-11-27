@@ -2,7 +2,7 @@ export const mockTechnicalTests = [
   {
     candidate_id: 51,
     name: "Technical Test",
-    observations: "Prueba técnica de Camilo",
+    observations: "Prueba técnica de Usuario",
     open_position_id: 3,
     scheduled: "2023-11-18T16:02:49.516979",
     score: 100,
